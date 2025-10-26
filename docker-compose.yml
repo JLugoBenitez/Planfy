@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: planfy_postgres
+    environment:
+      POSTGRES_DB: planfy
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5444:5432"
+    volumes:
+      - planfy_data:/var/lib/postgresql/data
+    networks:
+      - planfy_network
+
+  backend:
+    build: ./backend/planfy-backend
+    container_name: planfy_backend
+    ports:
+      - "8008:8080"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    networks:
+      - planfy_network
+
+volumes:
+  planfy_data:
+
+networks:
+  planfy_network:
+    driver: bridge
+
