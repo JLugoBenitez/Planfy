@@ -2,6 +2,8 @@ package com.planfy.backend.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,6 +31,10 @@ public class User {
 	
 	@Column(nullable=true) //Puede ser null ya que se implementa el login con Google
 	private String password;
+	
+	@Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Rol rol = Rol.USER;
 	
 	@Column(nullable=false)
 	private Boolean googleAuth;
