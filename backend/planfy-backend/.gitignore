@@ -31,3 +31,11 @@ build/
 
 ### VS Code ###
 .vscode/
+# ❌ No incluir metadatos de Eclipse
+/.metadata/
+/backend/.metadata/
+/frontend/.metadata/
+**/.classpath
+**/.project
+**/.settings/
+
