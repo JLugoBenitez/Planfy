@@ -31,3 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
+# Archivos basura de Eclipse
+backend/.metadata/
+**/.classpath
+**/.project
+**/.settings/
+**/.log
+
