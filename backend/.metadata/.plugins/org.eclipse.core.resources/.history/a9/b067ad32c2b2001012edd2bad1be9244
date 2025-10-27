@@ -1,0 +1,8 @@
+spring.datasource.url=jdbc:postgresql://localhost:5432/planfy?createDatabaseIfNotExist=true
+spring.datasource.username=planfy_user
+spring.datasource.password=planfy_pass
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.application.name=PlanfyBackend
+server.port=8080
