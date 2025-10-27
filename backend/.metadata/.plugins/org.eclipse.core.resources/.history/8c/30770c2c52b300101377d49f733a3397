@@ -1,0 +1,5 @@
+package com.planfy.backend.repository;
+
+public interface UserRepository {
+
+}
