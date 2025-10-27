@@ -1,0 +1,5 @@
+package com.planfy.backend.model;
+
+public class Role {
+
+}
