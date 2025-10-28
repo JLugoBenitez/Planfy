@@ -5,10 +5,17 @@
 		</section>
 	</section>
 	<section name="WorkbenchPreferenceDialog.dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="657"/>
+		<item key="DIALOG_X_ORIGIN" value="94"/>
 		<item key="DIALOG_Y_ORIGIN" value="151"/>
 		<item key="DIALOG_WIDTH" value="762"/>
 		<item key="DIALOG_HEIGHT" value="833"/>
+		<item key="DIALOG_FONT_NAME" value="1|Fira Sans|10.0|0|GTK|1|"/>
+	</section>
+	<section name="InstallationDialogSettings">
+		<item key="DIALOG_X_ORIGIN" value="24"/>
+		<item key="DIALOG_Y_ORIGIN" value="-203"/>
+		<item key="DIALOG_WIDTH" value="690"/>
+		<item key="DIALOG_HEIGHT" value="827"/>
 		<item key="DIALOG_FONT_NAME" value="1|Fira Sans|10.0|0|GTK|1|"/>
 	</section>
 </section>
