@@ -6,8 +6,14 @@ import java.util.Random;
 
 import org.springframework.stereotype.Service;
 
-import com.planfy.backend.model.*;
-import com.planfy.backend.repository.*;
+import com.planfy.backend.model.Categoria;
+import com.planfy.backend.model.Ciudad;
+import com.planfy.backend.model.Plan;
+import com.planfy.backend.model.UserLikePlan;
+import com.planfy.backend.repository.CategoriaRepository;
+import com.planfy.backend.repository.CiudadRepository;
+import com.planfy.backend.repository.PlanRepository;
+import com.planfy.backend.repository.UserLikePlanRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +24,7 @@ public class PlanService {
     private final PlanRepository planRepository;
     private final CiudadRepository ciudadRepository;
     private final CategoriaRepository categoriaRepository;
+    private final UserLikePlanRepository likeRepo;
 
         public Plan crearPlan(Plan plan, Long ciudadId, Long categoriaId) {
         Ciudad ciudad = ciudadRepository.findById(ciudadId)
@@ -86,4 +93,38 @@ public class PlanService {
         Collections.shuffle(planes, new Random());
         return planes.get(0);
     }
+    public Plan obtenerPlanParaSwipe(Long userId, Long ciudadId, Long categoriaId, Boolean gratuito, Double precioMax) {
+        // 1️⃣ Cargamos todos los planes
+        List<Plan> planes = planRepository.findAll();
+
+        // 2️⃣ Aplicamos filtros dinámicos
+        if (ciudadId != null)
+            planes.removeIf(p -> p.getCiudad() == null || !p.getCiudad().getId().equals(ciudadId));
+
+        if (categoriaId != null)
+            planes.removeIf(p -> p.getCategoria() == null || !p.getCategoria().getId().equals(categoriaId));
+
+        if (gratuito != null)
+            planes.removeIf(p -> p.getGratuito() == null || !p.getGratuito().equals(gratuito));
+
+        if (precioMax != null)
+            planes.removeIf(p -> p.getPrecio() != null && p.getPrecio() > precioMax);
+
+        // 3️⃣ Quitamos los ya votados por el usuario
+        List<Long> idsVotados = likeRepo.findByUserId(userId)
+                .stream()
+                .map(v -> v.getPlan().getId())
+                .toList();
+
+        planes.removeIf(p -> idsVotados.contains(p.getId()));
+
+        // 4️⃣ Si no quedan planes, devolvemos null (sin lanzar excepción)
+        if (planes.isEmpty()) {
+            return null;
+        }
+
+        // 5️⃣ Devolvemos uno aleatorio
+        return planes.get(new Random().nextInt(planes.size()));
+    }
+
 }

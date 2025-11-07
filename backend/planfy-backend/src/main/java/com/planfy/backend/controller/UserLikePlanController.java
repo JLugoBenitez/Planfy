@@ -18,17 +18,17 @@ public class UserLikePlanController {
     private final PlanService planService;
     private final AuthUserService authUserService; // para obtener usuario logueado
 
-    @PostMapping("/{id}/like")
-    public void likePlan(@PathVariable Long id) {
-        User user = authUserService.getAuthenticatedUser();
-        Plan plan = planService.obtenerPorId(id);
-        likeService.likePlan(user, plan, true);
-    }
+    //PostMapping("/{id}/like")
+    //public void likePlan(@PathVariable Long id) {
+        //User user = authUserService.getAuthenticatedUser();
+        //Plan plan = planService.obtenerPorId(id);
+      //likeService.likePlan(user, plan, true);
+    //}
 
-    @PostMapping("/{id}/dislike")
-    public void dislikePlan(@PathVariable Long id) {
-        User user = authUserService.getAuthenticatedUser();
-        Plan plan = planService.obtenerPorId(id);
-        likeService.likePlan(user, plan, false);
-    }
+    //@PostMapping("/{id}/dislike")
+    //public void dislikePlan(@PathVariable Long id) {
+      //  User user = authUserService.getAuthenticatedUser();
+        //Plan plan = planService.obtenerPorId(id);
+        //likeService.likePlan(user, plan, false);
+    //}
 }

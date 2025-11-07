@@ -1,8 +1,15 @@
 package com.planfy.backend.controller;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.planfy.backend.repository.UserRepository;
 import com.planfy.backend.service.LikeService;
 
 import lombok.RequiredArgsConstructor;
@@ -13,9 +20,21 @@ import lombok.RequiredArgsConstructor;
 public class LikeController {
 
     private final LikeService likeService;
+    private final UserRepository userRepository;
 
     private Long getUserId(Authentication auth) {
-        return Long.parseLong(auth.getPrincipal().toString());
+        String email;
+
+        Object principal = auth.getPrincipal();
+        if (principal instanceof UserDetails userDetails) {
+            email = userDetails.getUsername();
+        } else {
+            email = principal.toString();
+        }
+
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"))
+                .getId();
     }
 
     @PostMapping("/{planId}/like")

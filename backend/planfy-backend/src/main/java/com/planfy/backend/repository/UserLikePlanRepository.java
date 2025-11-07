@@ -18,5 +18,6 @@ public interface UserLikePlanRepository extends JpaRepository<UserLikePlan, Long
     Long countByPlanIdAndLikedTrue(Long planId);
 
     Long countByPlanIdAndLikedFalse(Long planId);
+	List<UserLikePlan> findByUserId(Long userId);
 
 }
