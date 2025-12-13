@@ -1,0 +1,245 @@
+/* Paleta basada en el logo Planfy */
+:root {
+  --planfy-green: #00e6a0;
+  --planfy-blue: #009dff;
+  --planfy-bg-dark: #050816;
+  --planfy-white: #ffffff;
+  --planfy-text-soft: #b8c0d4;
+}
+
+/* Fondo global */
+.auth-bg {
+  --background: transparent;
+  background: radial-gradient(circle at top left, #0ff9c4 0%, #009dff 40%, #050816 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Wrapper para centrar todo */
+.auth-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* Branding */
+.brand {
+  text-align: center;
+  margin-bottom: 18px;
+  color: var(--planfy-white);
+}
+
+.brand-logo {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 8px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--planfy-green), var(--planfy-blue));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.brand-logo img {
+  width: 70%;
+  height: 100px;
+  object-fit: contain;
+}
+
+.brand-title {
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin: 0;
+}
+
+.brand-subtitle {
+  font-size: 0.85rem;
+  opacity: 0.82;
+  margin-top: 4px;
+}
+
+/* Card principal (glassmorphism) */
+.auth-card {
+  position: relative;
+  width: min(420px, 100%);
+  height: 430px;
+  background: rgba(5, 8, 22, 0.82);
+  border-radius: 22px;
+  padding: 22px 24px;
+  box-sizing: border-box;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(18px);
+  overflow: hidden;
+}
+
+/* Ocultar checkbox */
+.auth-toggle,
+#chk {
+  display: none;
+}
+
+/* Form base */
+.signup,
+.login {
+  position: absolute;
+  inset: 0;
+  padding: 22px 24px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.65s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+form {
+  width: 100%;
+}
+
+.form-title {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 18px;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--planfy-white);
+  cursor: default;
+}
+
+/* Inputs */
+.input {
+  width: 100%;
+  padding: 11px 12px;
+  margin: 7px 0;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(5, 8, 22, 0.9);
+  color: var(--planfy-white);
+  font-size: 0.9rem;
+  outline: none;
+  transition: all 0.22s ease;
+  box-sizing: border-box;
+}
+
+.input::placeholder {
+  color: rgba(184, 192, 212, 0.8);
+}
+
+.input:focus {
+  border-color: var(--planfy-green);
+  box-shadow: 0 0 0 1px rgba(0, 230, 160, 0.25);
+}
+
+/* Botón principal */
+.btn-primary {
+  width: 100%;
+  margin-top: 14px;
+  padding: 11px 12px;
+  border-radius: 14px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--planfy-white);
+  background: linear-gradient(135deg, var(--planfy-green), var(--planfy-blue));
+  box-shadow: 0 10px 24px rgba(0, 157, 255, 0.45);
+  transition: all 0.25s ease;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px rgba(0, 157, 255, 0.55);
+}
+
+.btn-primary:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.7);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* Texto cambio login/register */
+.switch-text {
+  margin-top: 14px;
+  font-size: 0.8rem;
+  color: var(--planfy-text-soft);
+  text-align: center;
+}
+
+.switch-link {
+  color: var(--planfy-green);
+  margin-left: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.switch-link:hover {
+  color: var(--planfy-blue);
+}
+
+/* ESTADOS ANIMADOS LOGIN / SIGNUP */
+
+/* Por defecto: mostramos LOGIN en primer plano */
+.signup {
+  transform: translateY(40px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.login {
+  background: transparent;
+  border-radius: 18px;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Cuando el checkbox está marcado: mostramos SIGNUP */
+#chk:checked ~ .auth-card .login {
+  transform: translateY(-40px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+#chk:checked ~ .auth-card .signup {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Responsividad */
+@media (max-width: 480px) {
+  .auth-wrapper {
+    padding: 16px 12px;
+  }
+
+  .auth-card {
+    height: 410px;
+    padding: 18px 18px;
+  }
+
+  .brand-title {
+    font-size: 1.6rem;
+  }
+
+  .form-title {
+    font-size: 1.2rem;
+    margin-bottom: 14px;
+  }
+
+  .input,
+  .btn-primary {
+    font-size: 0.86rem;
+  }
+}

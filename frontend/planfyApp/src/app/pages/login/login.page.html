@@ -1,0 +1,94 @@
+<ion-content class="auth-bg" fullscreen>
+
+  <div class="auth-wrapper">
+    <div class="brand">
+      <div class="brand-logo">
+        <img src="../../../assets/icon/favicon.png" alt="Planfy" />
+      </div>
+      <h1 class="brand-title">Planfy</h1>
+      <p class="brand-subtitle">Descubre planes cerca de ti, en un solo swipe.</p>
+    </div>
+
+    <input type="checkbox" id="chk" class="auth-toggle" aria-hidden="true" />
+
+    <div class="auth-card">
+
+      <div class="signup">
+        <form (ngSubmit)="goToRegister()" novalidate>
+          <label for="chk" aria-hidden="true" class="form-title">
+            Crear cuenta
+          </label>
+
+          <input
+            type="text"
+            placeholder="Nombre de usuario"
+            class="input"
+            required
+          />
+          <input
+            type="email"
+            placeholder="Correo electrónico"
+            class="input"
+            required
+          />
+          <input
+            type="password"
+            placeholder="Contraseña"
+            class="input"
+            required
+          />
+
+          <button type="submit" class="btn-primary">
+            Registrarme
+          </button>
+
+          <p class="switch-text">
+            ¿Ya tienes cuenta?
+            <label for="chk" class="switch-link">Inicia sesión</label>
+          </p>
+        </form>
+      </div>
+
+      <!-- FORM LOGIN (SIDE B) -->
+      <div class="login">
+        <form (ngSubmit)="login()" novalidate>
+          <label for="chk" aria-hidden="true" class="form-title">
+            Iniciar sesión
+          </label>
+
+          <input
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            placeholder="Correo electrónico"
+            class="input"
+            required
+          />
+          <input
+            type="password"
+            [(ngModel)]="password"
+            name="password"
+            placeholder="Contraseña"
+            class="input"
+            required
+          />
+
+          <button
+            type="submit"
+            class="btn-primary"
+            [disabled]="loading"
+          >
+            {{ loading ? 'Entrando...' : 'Entrar' }}
+          </button>
+
+          <p class="switch-text">
+            ¿No tienes cuenta?
+            <label for="chk" class="switch-link">Regístrate</label>
+          </p>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+</ion-content>

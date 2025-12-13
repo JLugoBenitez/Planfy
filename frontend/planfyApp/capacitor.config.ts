@@ -1,9 +1,10 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
+  appId: 'com.planfy.app',
   appName: 'planfyApp',
-  webDir: 'www'
+  webDir: 'www',
+  bundleWebRuntime:false
 };
 
 export default config;
