@@ -1,5 +1,6 @@
 package com.planfy.backend.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,12 +24,17 @@ public class Plan {
 	private Long id;
 	
 	private String nombre;
+
+	@Column(length = 1000)
 	private String descripcion;
 	private Double duracion;
 	private Boolean gratuito;
 	private Double precio;
 	private Double latitud;
 	private Double longitud;
+
+	@Column(name = "imagen_url", length = 500)
+	private String imagenUrl;
 	
 	@ManyToOne
 	@JoinColumn(name="ciudad_id")

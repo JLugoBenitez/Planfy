@@ -1,0 +1,229 @@
+// ─── Variables ────────────────────────────────────────────
+$bg: #0a0a0f;
+$surface: #14141f;
+$surface2: #1c1c2e;
+$accent: #7c5cbf;
+$accent2: #5b8dee;
+$text: #f0f0ff;
+$text-muted: #8888aa;
+$radius: 20px;
+
+// ─── Content ──────────────────────────────────────────────
+.login-content {
+  --background: #{$bg};
+  --color: #{$text};
+}
+
+// ─── Background blobs ─────────────────────────────────────
+.login-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.25;
+  animation: blobFloat 8s ease-in-out infinite;
+
+  &.blob-1 {
+    width: 400px; height: 400px;
+    background: $accent;
+    top: -100px; left: -100px;
+    animation-delay: 0s;
+  }
+  &.blob-2 {
+    width: 300px; height: 300px;
+    background: $accent2;
+    bottom: 0; right: -80px;
+    animation-delay: 3s;
+  }
+  &.blob-3 {
+    width: 200px; height: 200px;
+    background: #e05cbf;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation-delay: 6s;
+  }
+}
+
+@keyframes blobFloat {
+  0%, 100% { transform: scale(1) translate(0, 0); }
+  50% { transform: scale(1.1) translate(10px, -15px); }
+}
+
+// ─── Wrapper ──────────────────────────────────────────────
+.login-wrapper {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px 20px;
+  gap: 32px;
+}
+
+// ─── Brand ────────────────────────────────────────────────
+.brand {
+  text-align: center;
+
+  .brand-icon {
+    width: 72px; height: 72px;
+    background: linear-gradient(135deg, $accent, $accent2);
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    box-shadow: 0 8px 32px rgba($accent, 0.4);
+
+    ion-icon {
+      font-size: 36px;
+      color: white;
+    }
+  }
+
+  .brand-name {
+    font-size: 36px;
+    font-weight: 800;
+    color: $text;
+    letter-spacing: -1px;
+    margin: 0;
+    background: linear-gradient(135deg, #fff, $accent2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .brand-tagline {
+    margin: 8px 0 0;
+    color: $text-muted;
+    font-size: 14px;
+    letter-spacing: 0.3px;
+  }
+}
+
+// ─── Flip Card ────────────────────────────────────────────
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+  position: relative;
+  transition: all 0.5s ease;
+  perspective: 1000px;
+}
+
+.card-face {
+  background: $surface;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: $radius;
+  padding: 32px 28px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.card-back {
+  display: none;
+}
+
+.auth-card.flipped {
+  .card-front { display: none; }
+  .card-back { display: flex; }
+}
+
+// ─── Card Title ───────────────────────────────────────────
+.card-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: $text;
+  margin: 0 0 4px;
+  letter-spacing: -0.5px;
+}
+
+// ─── Input Group ─────────────────────────────────────────
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .input-icon {
+    position: absolute;
+    left: 14px;
+    color: $text-muted;
+    font-size: 18px;
+    z-index: 1;
+  }
+
+  .field {
+    width: 100%;
+    background: $surface2;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    color: $text;
+    font-size: 15px;
+    padding: 14px 14px 14px 44px;
+    outline: none;
+    transition: border-color 0.2s;
+
+    &::placeholder { color: $text-muted; }
+
+    &:focus {
+      border-color: $accent;
+      box-shadow: 0 0 0 3px rgba($accent, 0.15);
+    }
+  }
+}
+
+// ─── Button ───────────────────────────────────────────────
+.btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, $accent, $accent2);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  margin-top: 4px;
+  transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+  box-shadow: 0 4px 20px rgba($accent, 0.4);
+
+  ion-icon { font-size: 18px; }
+
+  &:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 10px rgba($accent, 0.3);
+  }
+
+  &:disabled { opacity: 0.6; cursor: not-allowed; }
+}
+
+// ─── Switch text ──────────────────────────────────────────
+.switch-text {
+  text-align: center;
+  color: $text-muted;
+  font-size: 13px;
+  margin: 4px 0 0;
+
+  .switch-link {
+    color: $accent2;
+    font-weight: 600;
+    cursor: pointer;
+    margin-left: 4px;
+
+    &:hover { text-decoration: underline; }
+  }
+}

@@ -1,0 +1,716 @@
+// ═══════════════════════════════════════════════════════════
+// PLANFY DASHBOARD — Rediseño con imágenes + glass + responsive full
+// ═══════════════════════════════════════════════════════════
+
+$header-h: 64px;
+$tab-h: 72px;
+
+.dash-content {
+  --background: var(--p-bg);
+  --color: var(--p-text);
+}
+
+// Background sutil con blobs
+.dash-content::part(scroll)::before {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(circle at 10% -10%, rgba(14, 207, 190, 0.18), transparent 40%),
+    radial-gradient(circle at 110% 110%, rgba(8, 145, 178, 0.18), transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+// ─── Header ──────────────────────────────────────────────
+.dash-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  padding-top: env(safe-area-inset-top);
+  height: calc(#{$header-h} + env(safe-area-inset-top));
+  background: color-mix(in srgb, var(--p-surface) 88%, transparent);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--p-border);
+}
+
+.header-right { display: flex; gap: 8px; }
+.header-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+
+// Counter de progreso (X/Y)
+.progress-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--planfy-grad-soft);
+  border: 1px solid var(--p-border);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--planfy-2);
+  overflow: hidden;
+  ion-icon { font-size: 13px; }
+  .progress-text { white-space: nowrap; z-index: 1; }
+  .progress-bar {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    background: linear-gradient(90deg, rgba(14,207,190,0.18), rgba(8,145,178,0.18));
+    transition: width .4s ease;
+    z-index: 0;
+  }
+  @media (max-width: 380px) { display: none; } // En móvil pequeño se oculta
+}
+
+.logo-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: 800;
+
+  span {
+    background: var(--planfy-grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .logo-img {
+    width: 32px; height: 32px;
+    display: block;
+    filter: drop-shadow(0 2px 6px rgba(8,145,178,0.25));
+  }
+}
+
+.icon-btn {
+  position: relative;
+  width: 42px; height: 42px;
+  background: var(--planfy-4);
+  border: 1px solid var(--p-border);
+  border-radius: 14px;
+  color: var(--planfy-2);
+  &.undo-btn { animation: pulseUndo 1.5s ease-in-out infinite; }
+  @keyframes pulseUndo {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(14, 207, 190, 0.45); }
+    50% { box-shadow: 0 0 0 6px rgba(14, 207, 190, 0); }
+  }
+  font-size: 20px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all .2s;
+
+  &.active, &:active {
+    background: var(--planfy-grad);
+    color: white;
+    border-color: transparent;
+    transform: scale(0.96);
+  }
+
+  .dot {
+    position: absolute; top: 4px; right: 4px;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--p-danger);
+    border: 2px solid var(--p-surface);
+  }
+}
+
+// ─── Search panel ────────────────────────────────────────
+.search-panel {
+  position: fixed;
+  top: calc(#{$header-h} + env(safe-area-inset-top));
+  left: 0; right: 0;
+  z-index: 90;
+  padding: 16px;
+  background: color-mix(in srgb, var(--p-surface) 95%, transparent);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--p-border);
+  transform: translateY(-110%);
+  opacity: 0;
+  transition: transform .3s ease, opacity .3s ease;
+
+  &.open {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .search-bar {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--planfy-4);
+    border: 2px solid var(--p-border);
+    border-radius: 16px;
+    padding: 4px 4px 4px 16px;
+
+    ion-icon { color: var(--planfy-2); font-size: 20px; flex-shrink: 0; }
+
+    input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-size: 15px;
+      color: var(--p-text);
+      padding: 12px 4px;
+      outline: none;
+      &::placeholder { color: var(--p-text-muted); }
+    }
+
+    .search-go {
+      background: var(--planfy-grad);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(8,145,178,0.35);
+      &:active { transform: scale(0.96); }
+    }
+  }
+}
+
+// ─── Filters panel ───────────────────────────────────────
+.filters-panel {
+  position: fixed;
+  top: calc(#{$header-h} + env(safe-area-inset-top));
+  left: 0; right: 0;
+  z-index: 90;
+  background: color-mix(in srgb, var(--p-surface) 95%, transparent);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--p-border);
+  padding: 18px 20px;
+  transform: translateY(-110%);
+  opacity: 0;
+  transition: transform .3s ease, opacity .3s ease;
+  box-shadow: var(--p-shadow);
+
+  &.open { transform: translateY(0); opacity: 1; }
+
+  .filters-title {
+    margin: 0 0 14px;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--planfy-2);
+    display: flex; align-items: center; gap: 8px;
+    ion-icon { font-size: 18px; }
+  }
+
+  .filter-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+
+    .filter-label {
+      font-size: 13px; font-weight: 600; color: var(--p-text);
+    }
+
+    .filter-select, .filter-input {
+      min-width: 140px;
+      padding: 10px 14px;
+      border: 2px solid var(--p-border);
+      border-radius: 10px;
+      background: var(--p-surface-2);
+      color: var(--p-text);
+      font-size: 13px;
+      font-weight: 600;
+      &:focus { outline: none; border-color: var(--planfy-1); }
+    }
+
+    ion-toggle {
+      --background: rgba(126, 217, 207, 0.3);
+      --background-checked: var(--planfy-1);
+      --handle-background: white;
+      --handle-background-checked: white;
+    }
+  }
+
+  .filters-actions {
+    display: flex; gap: 10px; margin-top: 16px;
+
+    button { flex: 1; padding: 11px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; transition: transform .15s; }
+    button:active { transform: scale(0.97); }
+
+    .btn-filter-reset {
+      background: var(--p-surface-2);
+      border: 2px solid var(--p-border);
+      color: var(--p-text-muted);
+    }
+    .btn-filter-apply {
+      background: var(--planfy-grad);
+      border: none;
+      color: white;
+      box-shadow: 0 4px 12px rgba(8,145,178,0.35);
+    }
+  }
+}
+
+// (Banner "Modo descubrir" eliminado — el cambio de plan al deslizar es suficiente)
+
+// ─── Swipe area ──────────────────────────────────────────
+.swipe-area {
+  padding-top: calc(#{$header-h} + env(safe-area-inset-top) + 24px);
+  // Reservamos espacio para action-bar (botones flotantes) + tab-bar
+  padding-bottom: calc(#{$tab-h} + 130px + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding-left: 16px;
+  padding-right: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.state-box {
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  text-align: center; color: var(--p-text);
+  padding: 60px 20px;
+  margin-top: 60px;
+
+  .spinner {
+    width: 50px; height: 50px;
+    border: 3px solid rgba(14, 207, 190, 0.2);
+    border-top-color: var(--planfy-1);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  .state-icon { font-size: 64px; }
+  h3 { margin: 0; font-size: 22px; font-weight: 800; color: var(--planfy-2); }
+  p { margin: 0; color: var(--p-text-muted); font-size: 15px; }
+
+  .btn-reload {
+    margin-top: 12px;
+    padding: 14px 28px;
+    background: var(--planfy-grad);
+    border: none;
+    border-radius: 14px;
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    display: inline-flex; align-items: center; gap: 8px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(8,145,178,0.35);
+    &:active { transform: scale(0.97); }
+    ion-icon { font-size: 18px; }
+  }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+// ─── PLAN CARD — nuevo diseño con imagen ──────────────────
+.plan-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--p-surface);
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+  border: 1px solid var(--p-border);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  user-select: none;
+  cursor: grab;
+  margin-top: 12px;
+}
+.plan-card.dragging { transition: none; cursor: grabbing; }
+.plan-card.swiping-right, .plan-card.swiping-left { transition: transform 0.4s ease-out; }
+
+// (Indicadores LIKE/NOPE eliminados; los botones inferiores X/❤️ son suficientes)
+
+// Visual con imagen
+.card-visual {
+  position: relative;
+  height: 360px;
+  overflow: hidden;
+  background: var(--planfy-grad); // fallback gradient antes de cargar imagen
+
+  .card-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    user-select: none;
+    -webkit-user-drag: none;
+    /* Empieza invisible y hace fade-in al cargar — evita el "corte" cuando
+       el navegador swappea la imagen. */
+    opacity: 0;
+    transition: opacity .35s cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent;
+  }
+  .card-img.loaded { opacity: 1; }
+
+  .card-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(to top, rgba(8, 25, 28, 0.78) 0%, rgba(8, 25, 28, 0) 50%),
+      linear-gradient(to bottom, rgba(8, 25, 28, 0.25) 0%, rgba(8, 25, 28, 0) 30%);
+  }
+
+  .card-top-overlay {
+    position: absolute; top: 16px; left: 16px; right: 16px;
+    display: flex; align-items: flex-start; justify-content: space-between;
+    z-index: 3;
+  }
+  .card-bottom-overlay { z-index: 3 !important; }
+
+  .category-badge {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--planfy-2);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  }
+
+  .info-btn {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.95);
+    border: none;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--planfy-2);
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+    transition: transform .15s;
+    &:active { transform: scale(0.92); }
+    ion-icon { font-size: 22px; }
+  }
+
+  .card-bottom-overlay {
+    position: absolute; bottom: 18px; left: 18px; right: 18px;
+    z-index: 2;
+    color: white;
+  }
+
+  .plan-name {
+    margin: 0 0 8px;
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.15;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  }
+
+  .plan-sub {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  .precio-badge {
+    background: rgba(255,255,255,0.95);
+    color: var(--planfy-2);
+    padding: 5px 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 800;
+    &.free { background: var(--planfy-grad); color: white; }
+  }
+  .city-tag {
+    display: inline-flex; align-items: center; gap: 4px;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    ion-icon { font-size: 16px; }
+  }
+}
+
+// Tap zone con descripción y meta
+.tap-zone-info {
+  padding: 18px 22px 22px;
+  background: var(--p-surface);
+  cursor: pointer;
+  transition: background .15s;
+
+  .plan-desc {
+    margin: 0 0 14px;
+    font-size: 14px;
+    color: var(--p-text-muted);
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-meta {
+    display: flex; flex-wrap: wrap; gap: 8px;
+
+    .meta-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--planfy-4);
+      border: 1px solid var(--p-border);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--p-text);
+      text-decoration: none;
+
+      ion-icon { font-size: 14px; color: var(--planfy-2); }
+
+      &.map-link {
+        color: var(--planfy-2);
+        font-weight: 700;
+      }
+      &.see-more {
+        background: var(--planfy-grad);
+        color: white;
+        border-color: transparent;
+        margin-left: auto;
+        ion-icon { color: white; }
+      }
+    }
+  }
+}
+
+// ─── Action bar ──────────────────────────────────────────
+// Importante: en m\u00f3vil tab-bar est\u00e1 fija al fondo (height $tab-h + safe-inset)
+// y en tablet/desktop la tab-bar es flotante con bottom = safe + 14px y height $tab-h.
+// Tenemos que separar el action-bar lo suficiente para que NO se solape con la tab-bar.
+.action-bar {
+  position: fixed;
+  bottom: calc(#{$tab-h} + 28px + env(safe-area-inset-bottom));
+  left: 0; right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  z-index: 50;
+  padding: 0 20px;
+  pointer-events: none;
+
+  .action-btn {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.25);
+    pointer-events: auto;
+    &:active { transform: scale(0.9); }
+
+    &.dislike-btn {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+      color: white;
+    }
+    &.info-circle-btn {
+      width: 50px; height: 50px;
+      background: var(--p-surface);
+      color: var(--planfy-2);
+      border: 2px solid var(--p-border);
+      font-size: 22px;
+    }
+    &.like-btn {
+      background: var(--planfy-grad);
+      color: white;
+    }
+  }
+}
+
+// ─── Tab bar ─────────────────────────────────────────────
+.tab-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: calc(#{$tab-h} + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  background: color-mix(in srgb, var(--p-surface) 95%, transparent);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--p-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  z-index: 100;
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.04);
+
+  .tab-btn {
+    flex: 1;
+    display: flex; flex-direction: column; align-items: center;
+    gap: 4px;
+    padding: 8px 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--p-text-muted);
+    ion-icon { font-size: 24px; transition: transform .2s; }
+    span { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
+
+    &.active {
+      color: var(--planfy-1);
+      ion-icon { color: var(--planfy-1); transform: scale(1.1); }
+    }
+    &:active { transform: scale(0.95); opacity: 0.7; }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// RESPONSIVE
+// ═══════════════════════════════════════════════════════════
+
+@media (max-width: 380px) {
+  .dash-header { padding: 0 12px; }
+  .dash-header .icon-btn { width: 38px; height: 38px; font-size: 18px; }
+  .logo-chip { font-size: 19px; .logo-img { width: 28px; height: 28px; } }
+  .card-visual { height: 320px; }
+  .card-visual .plan-name { font-size: 22px; }
+  .action-bar { gap: 14px; .action-btn { width: 56px; height: 56px; font-size: 24px; } }
+}
+
+@media (min-width: 768px) {
+  .filters-panel, .search-panel {
+    left: 50%; right: auto;
+    transform: translate(-50%, -110%);
+    width: min(560px, calc(100% - 40px));
+    border-radius: 0 0 22px 22px;
+    box-shadow: var(--p-shadow-lg);
+    &.open { transform: translate(-50%, 0); }
+  }
+
+  .plan-card { max-width: 480px; }
+  .card-visual { height: 420px; }
+  .card-visual .plan-name { font-size: 30px; }
+
+  .action-bar {
+    gap: 28px;
+    // Tab-bar flotante mide 72px y est\u00e1 a 14px del bottom \u2192 top de la tab-bar = 86-90px.
+    // Subimos action-bar para que quede claramente por encima.
+    bottom: calc(#{$tab-h} + 44px + env(safe-area-inset-bottom));
+    .action-btn { width: 70px; height: 70px; font-size: 32px; }
+    .action-btn.info-circle-btn { width: 56px; height: 56px; font-size: 24px; }
+  }
+
+  .tab-bar {
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+    width: min(580px, 100%);
+    margin-bottom: 14px;
+    border-radius: 22px;
+    border: 1px solid var(--p-border);
+    bottom: calc(env(safe-area-inset-bottom) + 14px);
+    box-shadow: var(--p-shadow-lg);
+  }
+}
+
+@media (min-width: 1024px) {
+  .swipe-area { padding-top: calc(#{$header-h} + 56px); }
+  .plan-card { max-width: 500px; }
+  .card-visual { height: 460px; }
+}
+
+// Hover en escritorio
+@media (hover: hover) and (pointer: fine) {
+  .icon-btn:hover { background: var(--planfy-grad-soft); }
+  .info-btn:hover { transform: scale(1.06); }
+  .action-btn:hover:not(.info-circle-btn) { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.3); }
+  .meta-chip:hover { background: var(--planfy-grad-soft); }
+  .tap-zone-info:hover { background: var(--p-surface-2); }
+  .tab-btn:hover { color: var(--planfy-1); }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+// ─── Onboarding tour overlay ─────────────────────────────
+.tour-overlay {
+  position: fixed; inset: 0; z-index: 2000;
+  background: rgba(8, 25, 28, 0.7);
+  backdrop-filter: blur(10px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  animation: tourFadeIn .25s ease;
+}
+@keyframes tourFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes tourSlide { from { transform: translateY(20px) scale(0.95); opacity: 0; } to { transform: none; opacity: 1; } }
+
+.tour-card {
+  position: relative;
+  background: var(--p-surface);
+  border-radius: 28px;
+  padding: 32px 28px 24px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: var(--p-shadow-lg);
+  animation: tourSlide .35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  text-align: center;
+
+  .tour-skip {
+    position: absolute; top: 10px; right: 14px;
+    background: none; border: none;
+    color: var(--p-text-muted);
+    font-size: 28px; line-height: 1;
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 8px;
+    &:hover { background: var(--planfy-grad-soft); }
+  }
+
+  .tour-icon {
+    font-size: 48px;
+    margin-bottom: 8px;
+  }
+  h3 {
+    margin: 0 0 8px;
+    font-size: 22px; font-weight: 800;
+    color: var(--planfy-2);
+  }
+  p {
+    margin: 0 0 18px;
+    font-size: 14px; line-height: 1.55;
+    color: var(--p-text-muted);
+    kbd {
+      background: var(--planfy-4);
+      border: 1px solid var(--p-border);
+      border-radius: 6px;
+      padding: 2px 6px;
+      font-size: 12px;
+      font-family: inherit;
+      color: var(--planfy-2);
+    }
+    strong { color: var(--p-text); }
+  }
+
+  .tour-progress {
+    display: flex; justify-content: center; gap: 6px; margin-bottom: 18px;
+    .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--p-border);
+      transition: all .2s;
+      &.active { background: var(--planfy-1); width: 22px; border-radius: 4px; }
+    }
+  }
+
+  .tour-next {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 14px;
+    background: var(--planfy-grad);
+    color: white;
+    font-size: 15px; font-weight: 700;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    box-shadow: 0 6px 18px rgba(8,145,178,0.35);
+    transition: transform .15s;
+    &:active { transform: scale(0.97); }
+    ion-icon { font-size: 18px; }
+  }
+}

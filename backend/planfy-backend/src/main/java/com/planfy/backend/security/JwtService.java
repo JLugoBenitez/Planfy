@@ -17,12 +17,15 @@ public class JwtService {
 		return Keys.hmacShaKeyFor(SECRET_KEY.getBytes()); 
 	}
 	
+	// Tokens más realistas para una app de uso personal:
+	// - access token: 24h (suficiente para una sesión normal)
+	// - refresh token: 30 días
 	public String generateToken(String username) {
-		return createToken(username, 1000 * 60 * 15);
+		return createToken(username, 1000L * 60 * 60 * 24);            // 24h
 	}
-	
+
 	public String generateRefreshToken(String username) {
-		return createToken(username, 1000 * 60 * 60 * 24 * 7);
+		return createToken(username, 1000L * 60 * 60 * 24 * 30);       // 30d
 	}
 	
 	private String createToken(String username, long expiration) {

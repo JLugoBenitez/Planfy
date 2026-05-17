@@ -1,94 +1,113 @@
-<ion-content class="auth-bg" fullscreen>
+<ion-content class="login-content" fullscreen>
 
-  <div class="auth-wrapper">
+  <div class="login-bg">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <div class="login-wrapper">
+
+    <!-- BRAND -->
     <div class="brand">
-      <div class="brand-logo">
-        <img src="../../../assets/icon/favicon.png" alt="Planfy" />
+      <div class="brand-icon">
+        <img src="assets/icon/favicon.png" alt="Planfy" class="brand-logo" />
       </div>
-      <h1 class="brand-title">Planfy</h1>
-      <p class="brand-subtitle">Descubre planes cerca de ti, en un solo swipe.</p>
+      <h1 class="brand-name">Planfy</h1>
+      <p class="brand-tagline">Descubre planes, un swipe a la vez.</p>
     </div>
 
-    <input type="checkbox" id="chk" class="auth-toggle" aria-hidden="true" />
+    <!-- CARD con flip -->
+    <div class="auth-card" [class.flipped]="showRegister">
 
-    <div class="auth-card">
+      <!-- FRONT: LOGIN -->
+      <div class="card-face card-front">
+        <h2 class="card-title">Iniciar sesión</h2>
 
-      <div class="signup">
-        <form (ngSubmit)="goToRegister()" novalidate>
-          <label for="chk" aria-hidden="true" class="form-title">
-            Crear cuenta
-          </label>
+        <div class="input-group">
+          <ion-icon name="mail-outline" class="input-icon"></ion-icon>
+          <input
+            type="email"
+            [(ngModel)]="loginEmail"
+            placeholder="Correo electrónico"
+            class="field"
+            autocomplete="email"
+          />
+        </div>
 
+        <div class="input-group">
+          <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
+          <input
+            type="password"
+            [(ngModel)]="loginPassword"
+            placeholder="Contraseña"
+            class="field"
+            autocomplete="current-password"
+            (keyup.enter)="login()"
+          />
+        </div>
+
+        <button class="btn-primary" (click)="login()" [disabled]="submitting" [attr.aria-busy]="submitting">
+          {{ submitting ? 'Entrando…' : 'Entrar' }}
+          <ion-icon name="arrow-forward-outline" *ngIf="!submitting"></ion-icon>
+        </button>
+
+        <p class="switch-text">
+          ¿No tienes cuenta?
+          <span class="switch-link" (click)="goToRegister()">Regístrate gratis</span>
+        </p>
+      </div>
+
+      <!-- BACK: REGISTER -->
+      <div class="card-face card-back">
+        <h2 class="card-title">Crear cuenta</h2>
+
+        <div class="input-group">
+          <ion-icon name="person-outline" class="input-icon"></ion-icon>
           <input
             type="text"
-            placeholder="Nombre de usuario"
-            class="input"
-            required
+            [(ngModel)]="registerNombre"
+            placeholder="Tu nombre"
+            class="field"
           />
+        </div>
+
+        <div class="input-group">
+          <ion-icon name="mail-outline" class="input-icon"></ion-icon>
           <input
             type="email"
+            [(ngModel)]="registerEmail"
             placeholder="Correo electrónico"
-            class="input"
-            required
+            class="field"
+            autocomplete="email"
           />
+        </div>
+
+        <div class="input-group">
+          <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
           <input
             type="password"
-            placeholder="Contraseña"
-            class="input"
-            required
+            [(ngModel)]="registerPassword"
+            placeholder="Contraseña (mín. 6 caracteres)"
+            class="field"
+            autocomplete="new-password"
+            (keyup.enter)="register()"
           />
+        </div>
 
-          <button type="submit" class="btn-primary">
-            Registrarme
-          </button>
+        <button class="btn-primary" (click)="register()" [disabled]="submitting" [attr.aria-busy]="submitting">
+          {{ submitting ? 'Creando…' : 'Crear cuenta' }}
+          <ion-icon name="rocket-outline" *ngIf="!submitting"></ion-icon>
+        </button>
 
-          <p class="switch-text">
-            ¿Ya tienes cuenta?
-            <label for="chk" class="switch-link">Inicia sesión</label>
-          </p>
-        </form>
-      </div>
-
-      <!-- FORM LOGIN (SIDE B) -->
-      <div class="login">
-        <form (ngSubmit)="login()" novalidate>
-          <label for="chk" aria-hidden="true" class="form-title">
-            Iniciar sesión
-          </label>
-
-          <input
-            type="email"
-            [(ngModel)]="email"
-            name="email"
-            placeholder="Correo electrónico"
-            class="input"
-            required
-          />
-          <input
-            type="password"
-            [(ngModel)]="password"
-            name="password"
-            placeholder="Contraseña"
-            class="input"
-            required
-          />
-
-          <button
-            type="submit"
-            class="btn-primary"
-            [disabled]="loading"
-          >
-            {{ loading ? 'Entrando...' : 'Entrar' }}
-          </button>
-
-          <p class="switch-text">
-            ¿No tienes cuenta?
-            <label for="chk" class="switch-link">Regístrate</label>
-          </p>
-        </form>
+        <p class="switch-text">
+          ¿Ya tienes cuenta?
+          <span class="switch-link" (click)="goToLogin()">Inicia sesión</span>
+        </p>
       </div>
 
     </div>
+
   </div>
 
 </ion-content>

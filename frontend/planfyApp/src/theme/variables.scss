@@ -1,2 +1,94 @@
-// For information on how to create your own theme, please see:
-// http://ionicframework.com/docs/theming/
+// ═══════════════════════════════════════════════════════════
+// PLANFY — Theme tokens (light + dark)
+// Paleta extraída del logo (pin turquesa → azul)
+// ═══════════════════════════════════════════════════════════
+
+:root {
+  // Brand
+  --planfy-1: #0ECFBE;  // Turquesa mint (top del logo)
+  --planfy-2: #0891B2;  // Azul-teal profundo (bottom del logo)
+  --planfy-3: #7ED9CF;  // Mint suave
+  --planfy-4: #E6F9F6;  // Fondo frío claro
+  --planfy-5: #F5FDFB;  // Near-white mint
+  --planfy-grad: linear-gradient(135deg, #0ECFBE 0%, #0891B2 100%);
+  --planfy-grad-soft: linear-gradient(135deg, rgba(14,207,190,0.1) 0%, rgba(8,145,178,0.1) 100%);
+
+  // Superficies
+  --p-bg:        #f5f7fa;
+  --p-surface:   #ffffff;
+  --p-surface-2: #f9fbfc;
+  --p-text:      #1a3a3a;
+  --p-text-muted:#6b8a8a;
+  --p-border:    rgba(8, 145, 178, 0.15);
+  --p-shadow:    0 4px 20px rgba(0, 0, 0, 0.08);
+  --p-shadow-lg: 0 14px 40px rgba(0, 0, 0, 0.12);
+  --p-danger:    #ff6b6b;
+
+  // Ionic primary
+  --ion-color-primary:            #0891B2;
+  --ion-color-primary-rgb:        8, 145, 178;
+  --ion-color-primary-contrast:   #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade:      #077f9d;
+  --ion-color-primary-tint:       #219cba;
+  --ion-color-secondary:          #0ECFBE;
+  --ion-color-secondary-rgb:      14, 207, 190;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade:    #0cb6a7;
+  --ion-color-secondary-tint:     #26d4c5;
+
+  --ion-background-color:   var(--p-bg);
+  --ion-background-color-rgb: 245, 247, 250;
+  --ion-text-color:         var(--p-text);
+  --ion-text-color-rgb:     26, 58, 58;
+}
+
+// ─── Dark mode ─── activar con .dark en <html> o auto vía media query ─────
+:root.dark, .dark {
+  --p-bg:        #0a1719;
+  --p-surface:   #122024;
+  --p-surface-2: #19292e;
+  --p-text:      #e6f9f6;
+  --p-text-muted:#7ea8ad;
+  --p-border:    rgba(126, 217, 207, 0.15);
+  --p-shadow:    0 4px 20px rgba(0, 0, 0, 0.4);
+  --p-shadow-lg: 0 14px 40px rgba(0, 0, 0, 0.5);
+
+  --planfy-4: rgba(14, 207, 190, 0.08);
+  --planfy-5: #0d191b;
+
+  --ion-color-primary:          #26D4C5;
+  --ion-color-primary-rgb:      38, 212, 197;
+  --ion-color-primary-contrast: #0a1719;
+  --ion-color-primary-shade:    #0ECFBE;
+  --ion-color-primary-tint:     #5ce0d3;
+
+  --ion-background-color:     var(--p-bg);
+  --ion-background-color-rgb: 10, 23, 25;
+  --ion-text-color:           var(--p-text);
+  --ion-text-color-rgb:       230, 249, 246;
+}
+
+// Auto-dark si el usuario no eligió tema (clase .auto-theme aplicada por TS)
+@media (prefers-color-scheme: dark) {
+  :root.auto-theme {
+    --p-bg:        #0a1719;
+    --p-surface:   #122024;
+    --p-surface-2: #19292e;
+    --p-text:      #e6f9f6;
+    --p-text-muted:#7ea8ad;
+    --p-border:    rgba(126, 217, 207, 0.15);
+    --p-shadow:    0 4px 20px rgba(0, 0, 0, 0.4);
+    --p-shadow-lg: 0 14px 40px rgba(0, 0, 0, 0.5);
+    --planfy-4: rgba(14, 207, 190, 0.08);
+    --planfy-5: #0d191b;
+    --ion-color-primary:        #26D4C5;
+    --ion-color-primary-rgb:    38, 212, 197;
+    --ion-color-primary-contrast:#0a1719;
+    --ion-background-color:     #0a1719;
+    --ion-background-color-rgb: 10, 23, 25;
+    --ion-text-color:           #e6f9f6;
+    --ion-text-color-rgb:       230, 249, 246;
+  }
+}

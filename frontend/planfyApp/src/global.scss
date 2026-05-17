@@ -1,12 +1,6 @@
 /*
  * App Global CSS
  * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
  */
 
 /* Core CSS required for Ionic components to work properly */
@@ -18,20 +12,81 @@
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
 
-/* Optional CSS utils that can be commented out */
+/* Optional CSS utils */
 @import "@ionic/angular/css/padding.css";
 @import "@ionic/angular/css/float-elements.css";
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
-
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+/* @import '@ionic/angular/css/palettes/dark.system.css'; */
+
+/* ── Planfy Global ── */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ── Pull-to-refresh: solo color brand, sin textos custom ─── */
+ion-refresher-content {
+  --color: #0891B2;
+}
+ion-refresher-content .refresher-pulling-icon,
+ion-refresher-content .refresher-refreshing-icon {
+  color: #0891B2;
+}
+/* No mostramos textos: el icono y el spinner ya son suficientes */
+ion-refresher-content .refresher-pulling-text,
+ion-refresher-content .refresher-refreshing-text {
+  display: none !important;
+}
+
+/* ── Toast Styles ── */
+.planfy-toast {
+  --border-radius: 14px;
+  --box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  --start: auto;
+  --end: 16px;
+  --width: auto;
+  --max-width: 340px;
+  --min-width: 200px;
+  font-weight: 600;
+  font-size: 14px;
+  animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+.planfy-toast.ion-color-success {
+  --background: linear-gradient(135deg, #0ECFBE 0%, #0891B2 100%);
+  --color: #fff;
+  --button-color: #fff;
+}
+
+.planfy-toast.ion-color-danger {
+  --background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+  --color: #fff;
+  --button-color: #fff;
+}
+
+.planfy-toast.ion-color-warning {
+  --background: linear-gradient(135deg, #ffd93d 0%, #f6c23e 100%);
+  --color: #1a3a3a;
+  --button-color: #1a3a3a;
+}
+
+.planfy-toast.ion-color-medium {
+  --background: linear-gradient(135deg, #7ED9CF 0%, #5CB5B0 100%);
+  --color: #fff;
+  --button-color: #fff;
+}
+
+.planfy-toast.ion-color-primary {
+  --background: linear-gradient(135deg, #0ECFBE 0%, #0891B2 100%);
+  --color: #fff;
+  --button-color: #fff;
+}

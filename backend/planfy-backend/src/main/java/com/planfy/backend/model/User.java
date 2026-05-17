@@ -34,6 +34,7 @@ public class User {
 	
 
 	@Column(nullable = false)
+	@Builder.Default
 	private Boolean googleAuth = false;
 
 	@ManyToOne

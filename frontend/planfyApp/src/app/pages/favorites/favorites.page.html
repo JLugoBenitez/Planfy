@@ -1,13 +1,104 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>favorites</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="fav-content" fullscreen>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">favorites</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="title-line">
+      <h1 class="page-title">
+        <ion-icon name="heart"></ion-icon>
+        Mis favoritos
+      </h1>
+      <span class="count-badge" *ngIf="favorites.length > 0">{{ favorites.length }}</span>
+    </div>
+    <p class="subtitle" *ngIf="favorites.length > 0">
+      {{ favorites.length }} plan{{ favorites.length !== 1 ? 'es' : '' }} esperándote ✨
+    </p>
+  </div>
+
+  <!-- LOADING -->
+  <div class="state-box" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Cargando tus favoritos…</p>
+  </div>
+
+  <!-- ERROR -->
+  <div class="state-box" *ngIf="!loading && error">
+    <div class="state-icon">⚠️</div>
+    <h3>Algo no fue bien</h3>
+    <p>{{ errorMessage || 'No se pudieron cargar los favoritos.' }}</p>
+    <button class="btn-retry" (click)="retry()">
+      <ion-icon name="refresh-outline"></ion-icon>
+      Reintentar
+    </button>
+  </div>
+
+  <!-- VACÍO -->
+  <div class="state-box" *ngIf="!loading && !error && favorites.length === 0">
+    <div class="state-icon">💔</div>
+    <h3>Aún no tienes favoritos</h3>
+    <p>Da like a los planes que te gusten y aparecerán aquí.</p>
+    <button class="btn-explore" (click)="goToDashboard()">
+      <ion-icon name="compass"></ion-icon>
+      Explorar planes
+    </button>
+  </div>
+
+  <!-- GRID DE FAVORITOS -->
+  <div class="fav-grid" *ngIf="!loading && !error && favorites.length > 0">
+    <article
+      class="fav-card"
+      *ngFor="let plan of favorites"
+      (click)="openDetail(plan)"
+      [attr.aria-label]="plan.nombre"
+      tabindex="0"
+    >
+      <div class="fav-visual">
+        <img class="fav-img" [src]="imageFor(plan)" [alt]="plan.nombre"
+             (load)="onImgLoad($event)"
+             (error)="onImgError($event, plan)"
+             loading="lazy" decoding="async" />
+        <div class="fav-overlay"></div>
+        <span class="fav-category" *ngIf="plan.categoria">{{ plan.categoria.nombre }}</span>
+        <button class="remove-btn" (click)="removeFavorite(plan, $event)" aria-label="Quitar de favoritos">
+          <ion-icon name="heart-dislike-outline"></ion-icon>
+        </button>
+        <div class="fav-bottom">
+          <h3 class="fav-name">{{ plan.nombre }}</h3>
+          <span class="fav-price" [class.free]="plan.gratuito">{{ getPrecioLabel(plan) }}</span>
+        </div>
+      </div>
+
+      <div class="fav-info">
+        <p class="fav-desc">{{ plan.descripcion }}</p>
+        <div class="fav-meta">
+          <span class="meta-chip" *ngIf="plan.duracion">
+            <ion-icon name="time-outline"></ion-icon>
+            {{ getDuracionLabel(plan.duracion) }}
+          </span>
+          <span class="meta-chip" *ngIf="plan.ciudad">
+            <ion-icon name="location-outline"></ion-icon>
+            {{ plan.ciudad.nombre }}
+          </span>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- TAB BAR -->
+  <div class="tab-bar">
+    <button class="tab-btn" (click)="goToDashboard()">
+      <ion-icon name="compass-outline"></ion-icon>
+      <span>Explorar</span>
+    </button>
+    <button class="tab-btn active">
+      <ion-icon name="heart"></ion-icon>
+      <span>Favoritos</span>
+    </button>
+    <button class="tab-btn" (click)="goToAccount()">
+      <ion-icon name="person-outline"></ion-icon>
+      <span>Cuenta</span>
+    </button>
+  </div>
+
+  <!-- MODAL -->
+  <app-plan-detail-modal [plan]="detailPlan" [open]="detailOpen" (close)="closeDetail()"></app-plan-detail-modal>
 </ion-content>

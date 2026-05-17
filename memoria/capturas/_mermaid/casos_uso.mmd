@@ -1,0 +1,38 @@
+flowchart LR
+    classDef actor fill:#0891B2,stroke:#0ECFBE,color:#fff,stroke-width:2px,rx:30,ry:30
+    classDef cuPub fill:#E6F9F6,stroke:#0891B2,color:#0F172A,stroke-width:1px
+    classDef cuPriv fill:#0ECFBE,stroke:#0891B2,color:#fff,stroke-width:1px
+    classDef cuAdmin fill:#FEF3C7,stroke:#F59E0B,color:#92400E,stroke-width:1px
+
+    Anonimo((Usuario<br/>anónimo))
+    Usuario((Usuario<br/>autenticado))
+    Admin((Admin))
+    class Anonimo,Usuario,Admin actor
+
+    CU01[CU-01<br/>Registrarse]
+    CU02[CU-02<br/>Iniciar sesión]
+    CU03[CU-03<br/>Ver siguiente plan]
+    CU04[CU-04<br/>Like / Dislike]
+    CU05[CU-05<br/>Ver favoritos]
+    CU06[CU-06<br/>Eliminar favorito]
+    CU07[CU-07<br/>Ver detalle plan]
+    CU08[CU-08<br/>Compartir plan]
+    CU09[CU-09<br/>Cambiar tema]
+    CU10[CU-10<br/>Cerrar sesión]
+    CU11[CU-11<br/>Gestionar catálogo]
+
+    class CU01,CU02 cuPub
+    class CU03,CU04,CU05,CU06,CU07,CU08,CU09,CU10 cuPriv
+    class CU11 cuAdmin
+
+    Anonimo --> CU01
+    Anonimo --> CU02
+    Usuario --> CU03
+    Usuario --> CU04
+    Usuario --> CU05
+    Usuario --> CU06
+    Usuario --> CU07
+    Usuario --> CU08
+    Usuario --> CU09
+    Usuario --> CU10
+    Admin --> CU11

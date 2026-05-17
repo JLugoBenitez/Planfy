@@ -1,0 +1,11 @@
+flowchart LR
+    classDef cliente fill:#0ECFBE,stroke:#0891B2,color:#fff,stroke-width:2px
+    classDef backend fill:#0891B2,stroke:#0ECFBE,color:#fff,stroke-width:2px
+    classDef bbdd fill:#1E3A40,stroke:#0ECFBE,color:#fff,stroke-width:2px
+
+    Cliente["📱 FRONTEND<br/>━━━━━━━━━<br/>Angular 20 + Ionic 8<br/>Capacitor 7<br/>━━━━━━━━━<br/>:4200"]:::cliente
+    Backend["⚙️ BACKEND<br/>━━━━━━━━━<br/>Spring Boot 3<br/>Java 21<br/>━━━━━━━━━<br/>:8008"]:::backend
+    BBDD["🗄️ BASE DE DATOS<br/>━━━━━━━━━<br/>PostgreSQL 16<br/>━━━━━━━━━<br/>:5444"]:::bbdd
+
+    Cliente -- "REST + JSON<br/>Bearer JWT" --> Backend
+    Backend -- "JDBC<br/>Hibernate / JPA" --> BBDD

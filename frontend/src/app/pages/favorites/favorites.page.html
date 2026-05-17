@@ -1,0 +1,90 @@
+<ion-content class="fav-content" fullscreen>
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <h1 class="page-title">
+      <ion-icon name="heart"></ion-icon>
+      Mis Favoritos
+    </h1>
+    <span class="count-badge" *ngIf="favorites.length > 0">{{ favorites.length }}</span>
+  </div>
+
+  <!-- LOADING -->
+  <div class="state-box" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Cargando tus favoritos...</p>
+  </div>
+
+  <!-- ERROR -->
+  <div class="state-box" *ngIf="!loading && error">
+    <div class="state-icon">⚠️</div>
+    <p>No se pudieron cargar los favoritos.</p>
+    <button class="btn-retry" (click)="loadFavorites()">Reintentar</button>
+  </div>
+
+  <!-- VACÍO -->
+  <div class="state-box" *ngIf="!loading && !error && favorites.length === 0">
+    <div class="state-icon">💔</div>
+    <h3>Aún no tienes favoritos</h3>
+    <p>Da like a los planes que te gusten y aparecerán aquí.</p>
+    <button class="btn-explore" (click)="goToDashboard()">Explorar planes</button>
+  </div>
+
+  <!-- LISTA -->
+  <div class="fav-list" *ngIf="!loading && !error && favorites.length > 0">
+    <div class="fav-card" *ngFor="let plan of favorites">
+
+      <div class="fav-visual">
+        <div class="fav-gradient"></div>
+        <span class="fav-category" *ngIf="plan.categoria">{{ plan.categoria.nombre }}</span>
+        <button class="remove-btn" (click)="removeFavorite(plan)">
+          <ion-icon name="heart-dislike-outline"></ion-icon>
+        </button>
+      </div>
+
+      <div class="fav-info">
+        <div class="fav-top">
+          <h3 class="fav-name">{{ plan.nombre }}</h3>
+          <span class="fav-precio" [class.free]="plan.gratuito">
+            {{ getPrecioLabel(plan) }}
+          </span>
+        </div>
+        <p class="fav-desc">{{ plan.descripcion }}</p>
+        <div class="fav-meta">
+          <span class="meta-chip" *ngIf="plan.duracion">
+            <ion-icon name="time-outline"></ion-icon>
+            {{ getDuracionLabel(plan.duracion) }}
+          </span>
+          <span class="meta-chip" *ngIf="plan.ciudad">
+            <ion-icon name="location-outline"></ion-icon>
+            {{ plan.ciudad.nombre }}
+          </span>
+          <a class="meta-chip map-link"
+             [href]="getMapsUrl(plan)"
+             target="_blank">
+            <ion-icon name="map-outline"></ion-icon>
+            Mapa
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TAB BAR -->
+  <div class="tab-bar">
+    <button class="tab-btn" (click)="goToDashboard()">
+      <ion-icon name="compass-outline"></ion-icon>
+      <span>Explorar</span>
+    </button>
+    <button class="tab-btn active">
+      <ion-icon name="heart"></ion-icon>
+      <span>Favoritos</span>
+    </button>
+    <button class="tab-btn" (click)="goToAccount()">
+      <ion-icon name="person-outline"></ion-icon>
+      <span>Cuenta</span>
+    </button>
+  </div>
+
+</ion-content>

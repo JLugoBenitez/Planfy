@@ -1,0 +1,91 @@
+classDiagram
+    direction LR
+
+    class Plan {
+        +Long id
+        +String nombre
+        +String descripcion
+        +Double duracion
+        +Boolean gratuito
+        +Double precio
+        +Double latitud
+        +Double longitud
+        +String imagenUrl
+        +Ciudad ciudad
+        +Categoria categoria
+    }
+    class Ciudad { +Long id +String nombre }
+    class Categoria { +Long id +String nombre }
+    class Usuario {
+        +Long id
+        +String nombre
+        +String email
+        +String password
+        +Rol rol
+    }
+    class Rol { +Long id +String name }
+    class UserLikePlan {
+        +Long id
+        +Usuario user
+        +Plan plan
+        +Boolean liked
+        +Timestamp createdAt
+    }
+
+    class PlanService {
+        +obtenerTodos()
+        +obtenerPorId(Long)
+        +obtenerPlanParaSwipe(...)
+        +obtenerPlanAleatorio()
+    }
+    class LikeService {
+        +vote(userId, planId, liked)
+        +unvote(userId, planId)
+        +getUserLikes(userId)
+    }
+    class AuthService {
+        +login(req)
+        +register(req)
+    }
+    class JwtService {
+        +generateToken(user)
+        +extractUsername(token)
+        +isTokenValid(token, user)
+    }
+    class JwtAuthenticationFilter {
+        +doFilterInternal(...)
+    }
+
+    class PlanController {
+        +getSwipe(...)
+        +getAll()
+        +getRandom()
+    }
+    class LikeController {
+        +like(planId)
+        +dislike(planId)
+        +unvote(planId)
+        +myLikes()
+    }
+    class AuthController {
+        +login(req)
+        +register(req)
+    }
+    class MetaController {
+        +getCiudades()
+        +getCategorias()
+    }
+
+    Plan --> Ciudad
+    Plan --> Categoria
+    Usuario --> Rol
+    UserLikePlan --> Usuario
+    UserLikePlan --> Plan
+
+    PlanController --> PlanService
+    LikeController --> LikeService
+    AuthController --> AuthService
+    AuthService --> JwtService
+    JwtAuthenticationFilter --> JwtService
+    PlanService --> Plan
+    LikeService --> UserLikePlan
