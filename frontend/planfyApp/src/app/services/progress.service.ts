@@ -3,6 +3,7 @@ import { Observable, BehaviorSubject, combineLatest, map, catchError, of } from 
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { PlanService, UserLikePlan } from './plan.service';
+import { AuthService } from './auth.service';
 
 export interface Achievement {
   id: string;
@@ -45,6 +46,7 @@ const ACHIEVEMENTS: Achievement[] = [
 export class ProgressService {
   private http = inject(HttpClient);
   private planService = inject(PlanService);
+  private auth = inject(AuthService);
   private apiUrl = environment.apiUrl;
 
   private snapshot$ = new BehaviorSubject<ProgressSnapshot | null>(null);
@@ -52,11 +54,11 @@ export class ProgressService {
   /** Counter local de swipes (likes + dislikes) en este dispositivo */
   incLocalSwipes(): number {
     const cur = this.getLocalSwipes() + 1;
-    try { localStorage.setItem(SWIPE_KEY, String(cur)); } catch {}
+    try { localStorage.setItem(this.localSwipesKey(), String(cur)); } catch {}
     return cur;
   }
   getLocalSwipes(): number {
-    try { return Number(localStorage.getItem(SWIPE_KEY) || '0') || 0; } catch { return 0; }
+    try { return Number(localStorage.getItem(this.localSwipesKey()) || '0') || 0; } catch { return 0; }
   }
 
   observe(): Observable<ProgressSnapshot | null> {
@@ -128,5 +130,9 @@ export class ProgressService {
         return snap;
       })
     );
+  }
+
+  private localSwipesKey(): string {
+    return `${SWIPE_KEY}:${this.auth.getCurrentUserStorageKey()}`;
   }
 }

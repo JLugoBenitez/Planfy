@@ -86,6 +86,11 @@ export class AuthService {
     return token ? this.parseJwt(token) : null;
   }
 
+  getCurrentUserStorageKey(): string {
+    const email = this.getCurrentPayload()?.sub;
+    return email ? encodeURIComponent(email.toLowerCase()) : 'anonymous';
+  }
+
   private persistSession(res: JwtAuthResponse): void {
     if (res?.token) {
       this.storage.setToken(res.token);

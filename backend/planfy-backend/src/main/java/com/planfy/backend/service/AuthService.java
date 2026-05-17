@@ -2,8 +2,10 @@ package com.planfy.backend.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.planfy.backend.dto.auth.JwtAuthResponse;
 import com.planfy.backend.dto.auth.LoginRequest;
@@ -30,13 +32,18 @@ public class AuthService {
     private JwtService jwtService;
 
     public JwtAuthResponse register(RegisterRequest request) {
+        String email = normalizeEmail(request.getEmail());
+
+        if (userRepository.existsByEmail(email)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Ese email ya está registrado");
+        }
 
         Role roleEntity = roleRepository.findByName(request.getRole())
             .orElseThrow(() -> new RuntimeException("Role not found: " + request.getRole()));
 
         User user = User.builder()
             .nombre(request.getNombre())
-            .email(request.getEmail())
+            .email(email)
             .password(passwordEncoder.encode(request.getPassword()))
             .googleAuth(request.getGoogleAuth())
             .role(roleEntity)
@@ -51,8 +58,9 @@ public class AuthService {
     }
 
     public JwtAuthResponse login(LoginRequest request) {
+        String email = normalizeEmail(request.getEmail());
 
-        User user = userRepository.findByEmail(request.getEmail())
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
@@ -63,5 +71,9 @@ public class AuthService {
                 jwtService.generateToken(user.getEmail()),
                 jwtService.generateRefreshToken(user.getEmail())
         );
+    }
+
+    private String normalizeEmail(String email) {
+        return email == null ? "" : email.trim().toLowerCase();
     }
 }

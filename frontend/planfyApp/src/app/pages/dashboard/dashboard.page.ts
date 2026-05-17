@@ -94,7 +94,7 @@ export class DashboardPage implements OnInit, OnDestroy {
 
     // Onboarding tour si es la primera vez
     try {
-      if (!localStorage.getItem(this.TOUR_KEY)) this.tourStep = 1;
+      if (!localStorage.getItem(this.tourStorageKey())) this.tourStep = 1;
     } catch {}
 
     this.loadNextPlan();
@@ -332,7 +332,11 @@ export class DashboardPage implements OnInit, OnDestroy {
   }
   closeTour() {
     this.tourStep = 0;
-    try { localStorage.setItem(this.TOUR_KEY, '1'); } catch {}
+    try { localStorage.setItem(this.tourStorageKey(), '1'); } catch {}
+  }
+
+  private tourStorageKey(): string {
+    return `${this.TOUR_KEY}:${this.auth.getCurrentUserStorageKey()}`;
   }
 
   private advanceCard() {

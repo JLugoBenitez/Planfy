@@ -27,11 +27,11 @@ public class MetaController {
 
     @GetMapping("/ciudades")
     public List<Ciudad> getCiudades() {
-        return ciudadRepository.findAll();
+        return ciudadRepository.findWithPlans();
     }
 
     @GetMapping("/categorias")
     public List<Categoria> getCategorias() {
-        return categoriaRepository.findAll();
+        return categoriaRepository.findWithPlans();
     }
 }
