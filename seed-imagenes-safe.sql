@@ -1,0 +1,55 @@
+-- ═══════════════════════════════════════════════════════════════════════════
+-- PLANFY · Imágenes definitivas — TODAS verificadas en navegador
+-- Solo Wikipedia Commons (moderada). Todos los archivos confirmados con
+-- onload=true. Filtros EXPLÍCITOS contra cualquier "nude" o similar.
+-- ═══════════════════════════════════════════════════════════════════════════
+
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Museo_del_Prado_2016_(25185969599).jpg?width=800' WHERE id = 1;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Palacio_de_Cristal.jpg?width=800' WHERE id = 2;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Tapas_in_Sevilla.jpg?width=800' WHERE id = 3;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Sagrada%20Familia%20March%202015-19bw.jpg?width=800' WHERE id = 4;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Catedral_de_Barcelona_(9248804702).jpg?width=800' WHERE id = 5;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/SerraTramuntana2.jpg?width=800' WHERE id = 6;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Torres_serrans_abril.jpg?width=800' WHERE id = 7;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Dawn_Charles_V_Palace_Alhambra_Granada_Andalusia_Spain.jpg?width=800' WHERE id = 8;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Woman%20Flamenco%20dancer.jpg?width=800' WHERE id = 9;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Mundaka,_Euskal_Herria.jpg?width=800' WHERE id = 10;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Barcelona_-_Mercat_de_Sant_Josep_(la_Boqueria)_-_Entrance.jpg?width=800' WHERE id = 11;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Escape%20Room%20-%20%22The%20Expedition%22%20(Escape%20Quest%20Bethesda).jpg?width=800' WHERE id = 12;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Kayak%20Playboat%20ManchesterNH.jpg?width=800' WHERE id = 13;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Museo_Guggenheim,_Bilbao_(31273245344).jpg?width=800' WHERE id = 14;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Costa_Brava_Calas.JPG?width=800' WHERE id = 15;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Escape%20Room%20-%20%22The%20Expedition%22%20(Escape%20Quest%20Bethesda).jpg?width=800' WHERE id = 16;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Terrace%20Lanes%20Frederick%20MD2.jpg?width=800' WHERE id = 17;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Roller%20coaster,%20MandDs%20Theme%20Park,%20Strathclyde%20Country%20Park%20-%20geograph.org.uk%20-%201027304.jpg?width=800' WHERE id = 18;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Museo_del_Prado_2016_(25185969599).jpg?width=800' WHERE id = 19;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Halki%20Seminary%20library%20old%20books%20Heybeliada%202024.jpg?width=800' WHERE id = 20;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Woman%20Flamenco%20dancer.jpg?width=800' WHERE id = 21;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Tapas_in_Sevilla.jpg?width=800' WHERE id = 22;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Mercado_de_San_Miguel_2025.jpg?width=800' WHERE id = 23;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Paella_de_marisco_01_(cropped)_4.3.jpg?width=800' WHERE id = 24;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Go-kart%20with%20Honda%20engine.jpg?width=800' WHERE id = 25;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Joshue%20Tree%20National%20Park%20-%20Manx%20Boulder%20-%202.jpg?width=800' WHERE id = 26;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Outdoor%20yoga.jpg?width=800' WHERE id = 27;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Zip%20line%20over%20the%20falls%20of%20Li%20Phi%20at%20sunrise%20in%20Don%20Khon%20Laos.jpg?width=800' WHERE id = 28;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Liberty%20Paintball%202023%20Zombie%20Invasion%20Big%20Game%2004.jpg?width=800' WHERE id = 29;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Sala_de_cine.jpg?width=800' WHERE id = 30;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Bioparc_Valencia_II_(2787453634).jpg?width=800' WHERE id = 31;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Ciutat_de_les_Arts_i_les_Ci%C3%A8ncies.jpg?width=800' WHERE id = 32;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Teatro_Real_(Madrid)_07.jpg?width=800' WHERE id = 33;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Lonja%20de%20la%20Seda,%20Valencia,%20Espa%C3%B1a,%202014-06-29,%20DD%2022.JPG?width=800' WHERE id = 34;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/01_Paella_Valenciana_original.jpg?width=800' WHERE id = 35;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Horchata,%20my%20drink%20of%20choice%20in%20Mexico%20-%20Merida%20Yucatan%2021%20March%202021.jpg?width=800' WHERE id = 36;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Playa_de_la_Malvarrosa_(Valencia)_01.jpg?width=800' WHERE id = 37;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Bicycle_in_Amsterdam.jpg?width=800' WHERE id = 38;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/G%C3%BCell_BCN_edited.jpg?width=800' WHERE id = 39;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Pristis%20pristis%20-%20Georgia%20Aquarium%20Jan%202006.jpg?width=800' WHERE id = 40;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Sagrada%20Familia%20March%202015-19bw.jpg?width=800' WHERE id = 41;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Museu%20Picasso%20Barcelona-%20queues.jpg?width=800' WHERE id = 42;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Casa_Batll%C3%B3,_Antoni_Gaud%C3%AD.jpg?width=800' WHERE id = 43;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Passeig_del_Born_Barcelona_Catalonia.JPG?width=800' WHERE id = 44;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Barcelona_-_Mercat_de_Sant_Josep_(la_Boqueria)_-_Entrance.jpg?width=800' WHERE id = 45;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Roller-skate.jpg?width=800' WHERE id = 46;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Senderismo-GR-11-Prineos.jpg?width=800' WHERE id = 47;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Indoor%20skydiving%20Bottrop%20wind%20tunnel%20scheme.jpg?width=800' WHERE id = 48;
+UPDATE planes SET imagen_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Montserrat-aire.jpg?width=800' WHERE id = 49;

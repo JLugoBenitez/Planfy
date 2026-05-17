@@ -1,0 +1,46 @@
+erDiagram
+    USUARIOS {
+        bigint id PK
+        varchar nombre
+        varchar email UK
+        varchar password
+        bigint role_id FK
+    }
+    ROLES {
+        bigint id PK
+        varchar name UK
+    }
+    PLANES {
+        bigint id PK
+        varchar nombre
+        varchar descripcion
+        double duracion
+        boolean gratuito
+        double precio
+        double latitud
+        double longitud
+        varchar imagen_url
+        bigint ciudad_id FK
+        bigint categoria_id FK
+    }
+    CIUDADES {
+        bigint id PK
+        varchar nombre UK
+    }
+    CATEGORIAS {
+        bigint id PK
+        varchar nombre UK
+    }
+    USER_LIKE_PLAN {
+        bigint id PK
+        bigint user_id FK
+        bigint plan_id FK
+        boolean liked
+        timestamp created_at
+    }
+
+    USUARIOS }o--|| ROLES : tiene
+    PLANES }o--|| CIUDADES : pertenece_a
+    PLANES }o--|| CATEGORIAS : clasificado_en
+    USUARIOS ||--o{ USER_LIKE_PLAN : vota
+    PLANES   ||--o{ USER_LIKE_PLAN : recibe_voto

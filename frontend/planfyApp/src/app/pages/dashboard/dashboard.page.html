@@ -1,0 +1,247 @@
+<ion-content class="dash-content" fullscreen>
+
+  <!-- HEADER -->
+  <div class="dash-header">
+    <div class="header-left">
+      <div class="logo-chip">
+        <img src="assets/icon/favicon.png" alt="" class="logo-img" />
+        <span>Planfy</span>
+      </div>
+      <!-- Counter de progreso X/Y -->
+      <div class="progress-pill" *ngIf="progress && progress.totalPlanes > 0" [attr.aria-label]="'Has visto ' + progress.seen + ' de ' + progress.totalPlanes + ' planes'">
+        <ion-icon name="stats-chart-outline"></ion-icon>
+        <span class="progress-text">{{ progress.seen }}/{{ progress.totalPlanes }}</span>
+        <span class="progress-bar" [style.width.%]="(progress.seen / progress.totalPlanes) * 100"></span>
+      </div>
+    </div>
+    <div class="header-right">
+      <button class="icon-btn undo-btn" *ngIf="lastSwipe" (click)="undoLastSwipe()" aria-label="Deshacer último swipe" title="Deshacer">
+        <ion-icon name="refresh-outline"></ion-icon>
+      </button>
+      <button class="icon-btn" (click)="toggleSearch()" [class.active]="showSearch" aria-label="Buscar">
+        <ion-icon name="search-outline"></ion-icon>
+      </button>
+      <button class="icon-btn" (click)="toggleFilters()" [class.active]="showFilters" aria-label="Filtros">
+        <ion-icon name="options-outline"></ion-icon>
+        <span class="dot" *ngIf="hasActiveFilter()"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- SEARCH PANEL -->
+  <div class="search-panel" [class.open]="showSearch">
+    <div class="search-bar">
+      <ion-icon name="search-outline"></ion-icon>
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        placeholder="Busca ciudad o categoría… (Madrid, Cultura, Surf…)"
+        (keyup.enter)="applySearch()"
+        autocomplete="off"
+      />
+      <button class="search-go" (click)="applySearch()">Buscar</button>
+    </div>
+  </div>
+
+  <!-- FILTROS -->
+  <div class="filters-panel" [class.open]="showFilters">
+    <h3 class="filters-title">
+      <ion-icon name="filter-outline"></ion-icon>
+      Filtros
+    </h3>
+
+    <div class="filter-row">
+      <span class="filter-label">Ciudad</span>
+      <select class="filter-select" [(ngModel)]="filters.ciudadId">
+        <option [ngValue]="undefined">Todas</option>
+        <option *ngFor="let c of ciudades" [ngValue]="c.id">{{ c.nombre }}</option>
+      </select>
+    </div>
+
+    <div class="filter-row">
+      <span class="filter-label">Categoría</span>
+      <select class="filter-select" [(ngModel)]="filters.categoriaId">
+        <option [ngValue]="undefined">Todas</option>
+        <option *ngFor="let c of categorias" [ngValue]="c.id">{{ c.nombre }}</option>
+      </select>
+    </div>
+
+    <div class="filter-row">
+      <span class="filter-label">Solo gratuitos</span>
+      <ion-toggle [(ngModel)]="soloGratuitos" color="primary"></ion-toggle>
+    </div>
+
+    <div class="filter-row" *ngIf="!soloGratuitos">
+      <span class="filter-label">Precio máx (€)</span>
+      <input type="number" class="filter-input" [(ngModel)]="filters.precioMax" placeholder="€" min="0" />
+    </div>
+
+    <div class="filters-actions">
+      <button class="btn-filter-reset" (click)="resetFilters()">Limpiar</button>
+      <button class="btn-filter-apply" (click)="applyFilters()">Aplicar</button>
+    </div>
+  </div>
+
+  <!-- ÁREA SWIPE -->
+  <div class="swipe-area">
+
+    <!-- LOADING -->
+    <div class="state-box" *ngIf="loading">
+      <div class="spinner"></div>
+      <p>Buscando planes…</p>
+    </div>
+
+    <!-- SIN MÁS -->
+    <div class="state-box" *ngIf="!loading && noMore">
+      <div class="state-icon">🎉</div>
+      <h3>¡Lo has visto todo!</h3>
+      <p>Has pasado por todos los planes disponibles.</p>
+      <button class="btn-reload" (click)="resetFilters()">
+        <ion-icon name="refresh-outline"></ion-icon>
+        Empezar de nuevo
+      </button>
+    </div>
+
+    <!-- CARD ACTUAL -->
+    <div
+      class="plan-card"
+      *ngIf="!loading && currentPlan && !noMore"
+      [style.transform]="cardTransform"
+      [class.swiping-right]="swipeDir === 'right'"
+      [class.swiping-left]="swipeDir === 'left'"
+      [class.dragging]="isDragging"
+      (touchstart)="onTouchStart($event)"
+      (touchmove)="onTouchMove($event)"
+      (touchend)="onTouchEnd()"
+      (mousedown)="onMouseDown($event)"
+    >
+      <!-- Visual con imagen -->
+      <div class="card-visual" [style.background]="gradient(currentPlan)">
+        <img class="card-img"
+             [src]="imageUrl(currentPlan)"
+             [alt]="currentPlan.nombre"
+             (load)="onImgLoad($event)"
+             (error)="onImgError($event, currentPlan)"
+             loading="eager"
+             decoding="async"
+             draggable="false" />
+        <div class="card-gradient"></div>
+        <div class="card-top-overlay">
+          <span class="category-badge" *ngIf="currentPlan.categoria">{{ currentPlan.categoria.nombre }}</span>
+          <button class="info-btn" (click)="openDetail(currentPlan); $event.stopPropagation()" aria-label="Ver detalles">
+            <ion-icon name="information-circle-outline"></ion-icon>
+          </button>
+        </div>
+        <div class="card-bottom-overlay">
+          <h2 class="plan-name">{{ currentPlan.nombre }}</h2>
+          <div class="plan-sub">
+            <span class="precio-badge" [class.free]="currentPlan.gratuito">
+              {{ getPrecioLabel(currentPlan) }}
+            </span>
+            <span class="city-tag" *ngIf="currentPlan.ciudad">
+              <ion-icon name="location-outline"></ion-icon>
+              {{ currentPlan.ciudad.nombre }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info inferior tappable -->
+      <div class="tap-zone-info" (click)="openDetail(currentPlan)" role="button" tabindex="0">
+        <p class="plan-desc">{{ currentPlan.descripcion }}</p>
+        <div class="card-meta">
+          <span class="meta-chip" *ngIf="currentPlan.duracion">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>{{ getDuracionLabel(currentPlan.duracion) }}</span>
+          </span>
+          <a class="meta-chip map-link"
+             [href]="getMapsUrl(currentPlan)"
+             target="_blank"
+             rel="noopener"
+             (click)="$event.stopPropagation()">
+            <ion-icon name="map-outline"></ion-icon>
+            <span>Mapa</span>
+          </a>
+          <span class="meta-chip see-more">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <span>Detalles</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTONES DE ACCIÓN -->
+  <div class="action-bar" *ngIf="!loading && currentPlan && !noMore">
+    <button class="action-btn dislike-btn" (click)="doDislike()" aria-label="No me interesa">
+      <ion-icon name="close"></ion-icon>
+    </button>
+    <button class="action-btn info-circle-btn" (click)="openDetail(currentPlan)" aria-label="Ver detalle">
+      <ion-icon name="information-circle-outline"></ion-icon>
+    </button>
+    <button class="action-btn like-btn" (click)="doLike()" aria-label="Me gusta">
+      <ion-icon name="heart"></ion-icon>
+    </button>
+  </div>
+
+  <!-- TAB BAR -->
+  <div class="tab-bar">
+    <button class="tab-btn active">
+      <ion-icon name="compass"></ion-icon>
+      <span>Explorar</span>
+    </button>
+    <button class="tab-btn" (click)="goToFavorites()">
+      <ion-icon name="heart-outline"></ion-icon>
+      <span>Favoritos</span>
+    </button>
+    <button class="tab-btn" (click)="goToAccount()">
+      <ion-icon name="person-outline"></ion-icon>
+      <span>Cuenta</span>
+    </button>
+  </div>
+
+  <!-- MODAL DETALLE -->
+  <app-plan-detail-modal
+    [plan]="detailPlan"
+    [open]="detailOpen"
+    (close)="closeDetail()">
+  </app-plan-detail-modal>
+
+  <!-- ONBOARDING TOUR (overlay) -->
+  <div class="tour-overlay" *ngIf="tourStep > 0" (click)="nextTourStep()">
+    <div class="tour-card" (click)="$event.stopPropagation()">
+      <button class="tour-skip" (click)="closeTour()" aria-label="Saltar tour">×</button>
+
+      <div *ngIf="tourStep === 1">
+        <div class="tour-icon">👉</div>
+        <h3>Desliza la card</h3>
+        <p>Desliza a la <strong>derecha</strong> si te gusta el plan, a la <strong>izquierda</strong> si no. También puedes usar las flechas del teclado <kbd>←</kbd> <kbd>→</kbd>.</p>
+      </div>
+
+      <div *ngIf="tourStep === 2">
+        <div class="tour-icon">ⓘ</div>
+        <h3>Mira los detalles</h3>
+        <p>Toca el botón <strong>ⓘ</strong> en la card o el chip <strong>Detalles</strong> para abrir la ficha completa con duración, ciudad, mapa y compartir.</p>
+      </div>
+
+      <div *ngIf="tourStep === 3">
+        <div class="tour-icon">❤️</div>
+        <h3>Tus favoritos</h3>
+        <p>Todos los planes que te gusten aparecen en la pestaña <strong>Favoritos</strong>. En tu cuenta verás stats y logros conforme uses la app.</p>
+      </div>
+
+      <div class="tour-progress">
+        <span class="dot" [class.active]="tourStep === 1"></span>
+        <span class="dot" [class.active]="tourStep === 2"></span>
+        <span class="dot" [class.active]="tourStep === 3"></span>
+      </div>
+
+      <button class="tour-next" (click)="nextTourStep()">
+        {{ tourStep === 3 ? '¡Empezar!' : 'Siguiente' }}
+        <ion-icon name="arrow-forward-outline" *ngIf="tourStep !== 3"></ion-icon>
+        <ion-icon name="rocket-outline" *ngIf="tourStep === 3"></ion-icon>
+      </button>
+    </div>
+  </div>
+
+</ion-content>

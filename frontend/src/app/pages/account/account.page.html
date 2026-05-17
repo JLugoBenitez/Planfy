@@ -1,0 +1,94 @@
+<ion-content class="account-content" fullscreen>
+
+  <div class="account-bg">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+  </div>
+
+  <div class="account-wrapper">
+
+    <!-- AVATAR -->
+    <div class="avatar-section">
+      <div class="avatar">{{ avatarLetter }}</div>
+      <h2 class="user-name">{{ userName || 'Usuario' }}</h2>
+      <p class="user-email">{{ userEmail }}</p>
+    </div>
+
+    <!-- INFO CARDS -->
+    <div class="info-section">
+
+      <div class="info-card">
+        <div class="info-row">
+          <div class="info-icon-wrap">
+            <ion-icon name="mail-outline"></ion-icon>
+          </div>
+          <div class="info-text">
+            <span class="info-label">Email</span>
+            <span class="info-value">{{ userEmail || '—' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-row">
+          <div class="info-icon-wrap">
+            <ion-icon name="shield-checkmark-outline"></ion-icon>
+          </div>
+          <div class="info-text">
+            <span class="info-label">Sesión activa hasta</span>
+            <span class="info-value">{{ tokenExpiry || 'Activa' }}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="actions-section">
+      <button class="action-item" (click)="goToDashboard()">
+        <div class="action-icon">
+          <ion-icon name="compass-outline"></ion-icon>
+        </div>
+        <span>Explorar planes</span>
+        <ion-icon name="chevron-forward-outline" class="chevron"></ion-icon>
+      </button>
+
+      <button class="action-item" (click)="goToFavorites()">
+        <div class="action-icon red">
+          <ion-icon name="heart-outline"></ion-icon>
+        </div>
+        <span>Mis favoritos</span>
+        <ion-icon name="chevron-forward-outline" class="chevron"></ion-icon>
+      </button>
+
+      <button class="action-item danger" (click)="confirmLogout()">
+        <div class="action-icon danger">
+          <ion-icon name="log-out-outline"></ion-icon>
+        </div>
+        <span>Cerrar sesión</span>
+        <ion-icon name="chevron-forward-outline" class="chevron"></ion-icon>
+      </button>
+    </div>
+
+    <!-- VERSION -->
+    <p class="version-text">Planfy v1.0 · TFG 2025</p>
+
+  </div>
+
+  <!-- TAB BAR -->
+  <div class="tab-bar">
+    <button class="tab-btn" (click)="goToDashboard()">
+      <ion-icon name="compass-outline"></ion-icon>
+      <span>Explorar</span>
+    </button>
+    <button class="tab-btn" (click)="goToFavorites()">
+      <ion-icon name="heart-outline"></ion-icon>
+      <span>Favoritos</span>
+    </button>
+    <button class="tab-btn active">
+      <ion-icon name="person"></ion-icon>
+      <span>Cuenta</span>
+    </button>
+  </div>
+
+</ion-content>

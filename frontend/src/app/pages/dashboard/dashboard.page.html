@@ -1,0 +1,147 @@
+<ion-content class="dash-content" fullscreen>
+
+  <!-- HEADER -->
+  <div class="dash-header">
+    <div class="header-left">
+      <div class="logo-chip">
+        <ion-icon name="compass"></ion-icon>
+        <span>Planfy</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <button class="icon-btn" (click)="toggleFilters()" [class.active]="showFilters">
+        <ion-icon name="options-outline"></ion-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- PANEL FILTROS -->
+  <div class="filters-panel" [class.open]="showFilters">
+    <h3 class="filters-title">Filtros</h3>
+    <div class="filter-row">
+      <span class="filter-label">Solo gratuitos</span>
+      <ion-toggle [(ngModel)]="soloGratuitos" color="primary"></ion-toggle>
+    </div>
+    <div class="filter-row" *ngIf="!soloGratuitos">
+      <span class="filter-label">Precio máximo</span>
+      <input
+        type="number"
+        class="filter-input"
+        [(ngModel)]="filters.precioMax"
+        placeholder="€"
+        min="0"
+      />
+    </div>
+    <div class="filters-actions">
+      <button class="btn-filter-reset" (click)="resetFilters()">Limpiar</button>
+      <button class="btn-filter-apply" (click)="applyFilters()">Aplicar</button>
+    </div>
+  </div>
+
+  <!-- ÁREA PRINCIPAL SWIPE -->
+  <div class="swipe-area">
+
+    <!-- LOADING -->
+    <div class="state-box" *ngIf="loading">
+      <div class="spinner"></div>
+      <p>Buscando planes...</p>
+    </div>
+
+    <!-- SIN MÁS PLANES -->
+    <div class="state-box" *ngIf="!loading && noMore">
+      <div class="state-icon">🎉</div>
+      <h3>¡Lo has visto todo!</h3>
+      <p>Has pasado por todos los planes disponibles.</p>
+      <button class="btn-reload" (click)="resetFilters()">Ver de nuevo</button>
+    </div>
+
+    <!-- CARD SWIPE -->
+    <div
+      class="plan-card"
+      *ngIf="!loading && currentPlan"
+      [style.transform]="cardTransform"
+      [class.swiping-right]="swipeDir === 'right'"
+      [class.swiping-left]="swipeDir === 'left'"
+      [class.dragging]="isDragging"
+      (touchstart)="onTouchStart($event)"
+      (touchmove)="onTouchMove($event)"
+      (touchend)="onTouchEnd()"
+      (mousedown)="onMouseDown($event)"
+    >
+      <!-- INDICADORES LIKE/NOPE -->
+      <div class="swipe-label like-label" [style.opacity]="likeOpacity">
+        <ion-icon name="heart"></ion-icon> LIKE
+      </div>
+      <div class="swipe-label nope-label" [style.opacity]="nopeOpacity">
+        <ion-icon name="close"></ion-icon> NOPE
+      </div>
+
+      <!-- IMAGEN / GRADIENTE -->
+      <div class="card-visual">
+        <div class="card-gradient"></div>
+        <div class="category-badge" *ngIf="currentPlan.categoria">
+          {{ currentPlan.categoria.nombre }}
+        </div>
+      </div>
+
+      <!-- INFO -->
+      <div class="card-info">
+        <div class="card-top-row">
+          <h2 class="plan-name">{{ currentPlan.nombre }}</h2>
+          <span class="precio-badge" [class.free]="currentPlan.gratuito">
+            {{ getPrecioLabel(currentPlan) }}
+          </span>
+        </div>
+
+        <p class="plan-desc">{{ currentPlan.descripcion }}</p>
+
+        <div class="card-meta">
+          <div class="meta-chip" *ngIf="currentPlan.duracion">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>{{ getDuracionLabel(currentPlan.duracion) }}</span>
+          </div>
+          <div class="meta-chip" *ngIf="currentPlan.ciudad">
+            <ion-icon name="location-outline"></ion-icon>
+            <span>{{ currentPlan.ciudad.nombre }}</span>
+          </div>
+          <a class="meta-chip map-link"
+             [href]="getMapsUrl(currentPlan)"
+             target="_blank"
+             (click)="$event.stopPropagation()">
+            <ion-icon name="map-outline"></ion-icon>
+            <span>Ver mapa</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTONES DE ACCIÓN -->
+  <div class="action-bar" *ngIf="!loading && currentPlan && !noMore">
+    <button class="action-btn dislike-btn" (click)="doDislike()">
+      <ion-icon name="close"></ion-icon>
+    </button>
+    <div class="action-hint">← Desliza o pulsa →</div>
+    <button class="action-btn like-btn" (click)="doLike()">
+      <ion-icon name="heart"></ion-icon>
+    </button>
+  </div>
+
+  <!-- TAB BAR -->
+  <div class="tab-bar">
+    <button class="tab-btn active">
+      <ion-icon name="compass"></ion-icon>
+      <span>Explorar</span>
+    </button>
+    <button class="tab-btn" (click)="goToFavorites()">
+      <ion-icon name="heart-outline"></ion-icon>
+      <span>Favoritos</span>
+    </button>
+    <button class="tab-btn" (click)="goToAccount()">
+      <ion-icon name="person-outline"></ion-icon>
+      <span>Cuenta</span>
+    </button>
+  </div>
+
+</ion-content>

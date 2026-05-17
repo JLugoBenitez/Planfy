@@ -1,0 +1,469 @@
+// ═══════════════════════════════════════════════════════════
+// PLANFY ACCOUNT — Perfil + stats + theme picker
+// ═══════════════════════════════════════════════════════════
+
+$tab-h: 72px;
+
+.account-content {
+  --background: var(--p-bg);
+  --color: var(--p-text);
+}
+
+// ─── Background blobs ─────────────────────────────────────
+.account-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+
+  .blob {
+    position: absolute; border-radius: 50%; filter: blur(110px); opacity: 0.18;
+    &.b1 { width: 380px; height: 380px; background: var(--planfy-1); top: -100px; right: -100px; }
+    &.b2 { width: 280px; height: 280px; background: var(--planfy-2); bottom: 80px; left: -80px; }
+  }
+}
+
+// ─── Wrapper ──────────────────────────────────────────────
+.account-wrapper {
+  position: relative;
+  z-index: 1;
+  padding: 0 20px calc(#{$tab-h} + 32px);
+  padding-top: calc(20px + env(safe-area-inset-top));
+  min-height: 100vh;
+}
+
+// ─── Avatar ──────────────────────────────────────────────
+.avatar-section {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 36px 0 28px;
+
+  .avatar {
+    width: 96px; height: 96px;
+    border-radius: 32px;
+    background: var(--planfy-grad);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 44px; font-weight: 800; color: white;
+    margin-bottom: 14px;
+    box-shadow: 0 12px 36px rgba(8,145,178,0.4);
+    letter-spacing: -1px;
+  }
+
+  .user-name { margin: 0; font-size: 26px; font-weight: 800; color: var(--planfy-2); }
+  .user-email {
+    margin: 4px 0 0; font-size: 14px; color: var(--p-text-muted);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: background .15s;
+    &:active { background: var(--planfy-grad-soft); }
+  }
+}
+
+// ─── Stats grid ──────────────────────────────────────────
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.stat-card {
+  background: var(--p-surface);
+  border: 1px solid var(--p-border);
+  border-radius: 18px;
+  padding: 16px 14px;
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  position: relative;
+  overflow: hidden;
+
+  // Variante clickable (recomendaciones)
+  &.clickable {
+    cursor: pointer;
+    border: 1px solid var(--p-border);
+    transition: transform .15s, box-shadow .15s;
+    font-family: inherit;
+    color: inherit;
+    &:not(:disabled):active { transform: scale(0.97); }
+    &:disabled { cursor: default; opacity: 0.7; }
+    &:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0,0,0,0.08); }
+  }
+  .stat-cta {
+    position: absolute; top: 10px; right: 10px;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--planfy-grad);
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    ion-icon { font-size: 12px; }
+  }
+
+  .stat-icon {
+    width: 38px; height: 38px;
+    border-radius: 12px;
+    background: var(--planfy-grad-soft);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 4px;
+    ion-icon { font-size: 20px; color: var(--planfy-2); }
+  }
+  .stat-num {
+    font-size: 28px; font-weight: 800; color: var(--planfy-2);
+    line-height: 1.05;
+    &.smaller { font-size: 16px; max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  }
+  .stat-label {
+    font-size: 11px; font-weight: 700; color: var(--p-text-muted);
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+
+  &.primary {
+    background: var(--planfy-grad);
+    border-color: transparent;
+    box-shadow: 0 8px 24px rgba(8,145,178,0.35);
+
+    .stat-icon { background: rgba(255,255,255,0.25); ion-icon { color: white; } }
+    .stat-num { color: white; }
+    .stat-label { color: rgba(255,255,255,0.9); }
+  }
+}
+
+// ─── Reco banner ─────────────────────────────────────────
+.reco-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--planfy-grad);
+  border-radius: 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 8px 24px rgba(8,145,178,0.3);
+  color: white;
+
+  .reco-icon {
+    width: 42px; height: 42px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.25);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    ion-icon { font-size: 22px; color: white; }
+  }
+  .reco-text {
+    flex: 1; min-width: 0;
+    h4 { margin: 0; font-size: 15px; font-weight: 800; }
+    p { margin: 2px 0 0; font-size: 12px; opacity: 0.9; }
+  }
+  .reco-cta {
+    background: white;
+    color: var(--planfy-2);
+    border: none;
+    border-radius: 10px;
+    padding: 9px 14px;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    display: inline-flex; align-items: center; gap: 5px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    &:active { transform: scale(0.97); }
+    ion-icon { font-size: 14px; }
+  }
+}
+
+// ─── Achievements ────────────────────────────────────────
+.achievements {
+  .section-title {
+    display: flex; align-items: center; gap: 8px;
+    .achievement-count {
+      margin-left: auto;
+      font-size: 11px;
+      font-weight: 800;
+      background: var(--planfy-grad-soft);
+      padding: 4px 10px;
+      border-radius: 999px;
+      color: var(--planfy-2);
+      text-transform: none;
+      letter-spacing: 0;
+    }
+  }
+}
+
+.achievement-grid {
+  display: flex; flex-direction: column;
+  gap: 10px;
+}
+
+.achievement-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--p-border);
+  border-radius: 14px;
+  background: var(--p-surface-2);
+  opacity: 0.6;
+  filter: grayscale(0.4);
+  transition: all .25s;
+
+  &.unlocked {
+    opacity: 1;
+    filter: none;
+    background: var(--planfy-grad-soft);
+    border-color: var(--planfy-1);
+  }
+
+  .ach-icon {
+    width: 44px; height: 44px;
+    border-radius: 14px;
+    background: var(--p-surface);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    ion-icon { font-size: 22px; color: var(--p-text-muted); }
+  }
+  &.unlocked .ach-icon {
+    background: var(--planfy-grad);
+    box-shadow: 0 4px 12px rgba(8,145,178,0.4);
+    ion-icon { color: white; }
+  }
+
+  .ach-info {
+    flex: 1; min-width: 0;
+    display: flex; flex-direction: column; gap: 4px;
+    .ach-name { font-size: 14px; font-weight: 700; color: var(--p-text); }
+    .ach-desc { font-size: 12px; color: var(--p-text-muted); }
+    .ach-bar {
+      position: relative;
+      height: 6px;
+      background: var(--p-border);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 4px;
+      .ach-fill {
+        height: 100%;
+        background: var(--planfy-grad);
+        border-radius: 999px;
+        transition: width .4s ease;
+      }
+      .ach-progress {
+        position: absolute;
+        right: 0; top: -16px;
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--p-text-muted);
+      }
+    }
+    .ach-unlocked {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--planfy-2);
+      ion-icon { font-size: 14px; }
+    }
+  }
+}
+
+// ─── Section card ────────────────────────────────────────
+.section-card {
+  background: var(--p-surface);
+  border: 1px solid var(--p-border);
+  border-radius: 18px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+.section-title {
+  display: flex; align-items: center; gap: 8px;
+  margin: 0 0 12px;
+  font-size: 14px; font-weight: 800;
+  color: var(--planfy-2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  ion-icon { font-size: 18px; }
+}
+
+// Theme picker
+.theme-picker {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.theme-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 14px 6px;
+  background: var(--p-surface-2);
+  border: 2px solid var(--p-border);
+  border-radius: 14px;
+  cursor: pointer;
+  color: var(--p-text);
+  transition: all .15s;
+  ion-icon { font-size: 22px; color: var(--planfy-2); }
+  span { font-size: 12px; font-weight: 700; }
+  &:active { transform: scale(0.97); }
+
+  &.active {
+    background: var(--planfy-grad);
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 6px 18px rgba(8,145,178,0.35);
+    ion-icon { color: white; }
+  }
+}
+
+// ─── Info card ───────────────────────────────────────────
+.info-card {
+  background: var(--p-surface);
+  border: 1px solid var(--p-border);
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+
+  .info-row {
+    display: flex; align-items: center; gap: 14px;
+
+    .info-icon-wrap {
+      width: 40px; height: 40px;
+      background: var(--planfy-grad-soft);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      ion-icon { font-size: 20px; color: var(--planfy-2); }
+    }
+
+    .info-text {
+      display: flex; flex-direction: column; gap: 2px;
+      flex: 1; min-width: 0;
+      .info-label { font-size: 11px; font-weight: 700; color: var(--p-text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+      .info-value { font-size: 14px; color: var(--p-text); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    }
+
+    .copy-btn {
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: var(--planfy-4);
+      border: 1px solid var(--p-border);
+      color: var(--planfy-2);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      ion-icon { font-size: 18px; }
+      &:active { transform: scale(0.92); }
+    }
+  }
+}
+
+// ─── Actions ─────────────────────────────────────────────
+.actions-section {
+  background: var(--p-surface);
+  border: 1px solid var(--p-border);
+  border-radius: 18px;
+  overflow: hidden;
+  margin: 18px 0 22px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+
+.action-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px;
+  background: transparent; border: none;
+  border-bottom: 1px solid var(--p-border);
+  color: var(--p-text);
+  font-size: 15px; font-weight: 500;
+  cursor: pointer; text-align: left; width: 100%;
+  transition: background 0.2s;
+
+  &:last-child { border-bottom: none; }
+  &:active { background: var(--planfy-grad-soft); }
+
+  .action-icon {
+    width: 38px; height: 38px;
+    background: var(--planfy-grad-soft);
+    border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    ion-icon { font-size: 19px; color: var(--planfy-2); }
+
+    &.red, &.danger {
+      background: rgba(255, 107, 107, 0.12);
+      ion-icon { color: var(--p-danger); }
+    }
+  }
+
+  span { flex: 1; }
+  .chevron { font-size: 16px; color: var(--p-text-muted); }
+
+  &.danger { color: var(--p-danger); .chevron { color: rgba(255,107,107,0.5); } }
+}
+
+.version-text {
+  text-align: center;
+  font-size: 12px;
+  color: var(--p-text-muted);
+  margin: 0;
+  opacity: 0.6;
+}
+
+// ─── Tab bar ─────────────────────────────────────────────
+.tab-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: calc(#{$tab-h} + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  background: color-mix(in srgb, var(--p-surface) 95%, transparent);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--p-border);
+  display: flex; align-items: center; justify-content: space-around;
+  z-index: 100;
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.04);
+
+  .tab-btn {
+    flex: 1; display: flex; flex-direction: column; align-items: center;
+    gap: 4px; padding: 8px 0;
+    background: none; border: none; cursor: pointer;
+    transition: all 0.2s;
+    color: var(--p-text-muted);
+    ion-icon { font-size: 24px; }
+    span { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
+    &.active { color: var(--planfy-1); ion-icon { color: var(--planfy-1); } }
+    &:active { opacity: 0.7; }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// RESPONSIVE
+// ═══════════════════════════════════════════════════════════
+@media (max-width: 360px) {
+  .stat-card { padding: 12px 8px; }
+  .stat-num { font-size: 22px; }
+  .avatar-section { padding: 26px 0 20px; }
+  .avatar-section .avatar { width: 80px; height: 80px; font-size: 36px; }
+}
+
+@media (min-width: 600px) {
+  .stats-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (min-width: 680px) {
+  .account-wrapper { max-width: 720px; margin: 0 auto; padding-left: 32px; padding-right: 32px; }
+  .avatar-section { padding: 56px 0 36px; }
+  .avatar-section .avatar { width: 110px; height: 110px; font-size: 48px; border-radius: 36px; }
+}
+
+@media (min-width: 768px) {
+  .tab-bar {
+    left: 50%; transform: translateX(-50%); right: auto;
+    width: min(580px, 100%);
+    margin-bottom: 14px;
+    border-radius: 22px;
+    border: 1px solid var(--p-border);
+    bottom: calc(env(safe-area-inset-bottom) + 14px);
+    box-shadow: var(--p-shadow-lg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .account-bg .blob { animation: none; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .action-item:hover { background: var(--planfy-grad-soft); }
+  .stat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0,0,0,0.08); transition: transform .2s, box-shadow .2s; }
+  .theme-btn:hover:not(.active) { background: var(--planfy-grad-soft); }
+  .copy-btn:hover { background: var(--planfy-grad); color: white; ion-icon { color: white; } }
+  .tab-btn:hover { color: var(--planfy-1); }
+}

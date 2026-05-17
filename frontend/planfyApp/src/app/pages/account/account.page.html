@@ -1,0 +1,181 @@
+<ion-content class="account-content" fullscreen>
+
+  <div class="account-bg">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+  </div>
+
+  <div class="account-wrapper">
+
+    <!-- AVATAR -->
+    <div class="avatar-section">
+      <div class="avatar">{{ avatarLetter }}</div>
+      <h2 class="user-name">{{ userName || 'Usuario' }}</h2>
+      <p class="user-email" (click)="copyEmail()" title="Copiar">{{ userEmail }}</p>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card primary">
+        <div class="stat-icon"><ion-icon name="heart"></ion-icon></div>
+        <div class="stat-num">{{ statsLoading ? '–' : stats.total }}</div>
+        <div class="stat-label">Favoritos</div>
+      </div>
+      <button class="stat-card clickable" (click)="exploreTopCategoria()" [disabled]="!stats.categoriaFavId" [attr.aria-label]="'Ver más planes de ' + stats.categoriaFav">
+        <div class="stat-icon"><ion-icon name="trophy-outline"></ion-icon></div>
+        <div class="stat-num smaller">{{ statsLoading ? '–' : stats.categoriaFav }}</div>
+        <div class="stat-label">Categoría top</div>
+        <div class="stat-cta" *ngIf="stats.categoriaFavId">
+          <ion-icon name="arrow-forward-outline"></ion-icon>
+        </div>
+      </button>
+      <button class="stat-card clickable" (click)="exploreTopCiudad()" [disabled]="!stats.ciudadFavId" [attr.aria-label]="'Ver más planes en ' + stats.ciudadFav">
+        <div class="stat-icon"><ion-icon name="location-outline"></ion-icon></div>
+        <div class="stat-num smaller">{{ statsLoading ? '–' : stats.ciudadFav }}</div>
+        <div class="stat-label">Ciudad top</div>
+        <div class="stat-cta" *ngIf="stats.ciudadFavId">
+          <ion-icon name="arrow-forward-outline"></ion-icon>
+        </div>
+      </button>
+      <div class="stat-card">
+        <div class="stat-icon"><ion-icon name="star-outline"></ion-icon></div>
+        <div class="stat-num">{{ statsLoading ? '–' : stats.gratuitos }}</div>
+        <div class="stat-label">Gratuitos</div>
+      </div>
+    </div>
+
+    <!-- RECOMENDACIONES (CTA) -->
+    <div class="reco-banner" *ngIf="stats.categoriaFavId && !statsLoading">
+      <div class="reco-icon">
+        <ion-icon name="trending-up-outline"></ion-icon>
+      </div>
+      <div class="reco-text">
+        <h4>Te gusta {{ stats.categoriaFav }}</h4>
+        <p>Descubre más planes de esta categoría</p>
+      </div>
+      <button class="reco-cta" (click)="exploreTopCategoria()">
+        Ver más
+        <ion-icon name="arrow-forward-outline"></ion-icon>
+      </button>
+    </div>
+
+    <!-- ACHIEVEMENTS -->
+    <div class="section-card achievements" *ngIf="achievements.length > 0">
+      <h3 class="section-title">
+        <ion-icon name="trophy-outline"></ion-icon>
+        Logros
+        <span class="achievement-count">{{ unlockedCount }}/{{ achievements.length }}</span>
+      </h3>
+      <div class="achievement-grid">
+        <div *ngFor="let a of achievements"
+             class="achievement-item"
+             [class.unlocked]="a.unlocked"
+             [title]="a.description">
+          <div class="ach-icon">
+            <ion-icon [name]="a.unlocked ? a.icon : 'lock-closed-outline'"></ion-icon>
+          </div>
+          <div class="ach-info">
+            <span class="ach-name">{{ a.name }}</span>
+            <span class="ach-desc">{{ a.description }}</span>
+            <div class="ach-bar" *ngIf="!a.unlocked">
+              <div class="ach-fill" [style.width.%]="achievementProgress(a)"></div>
+              <span class="ach-progress">{{ a.current ?? 0 }} / {{ a.threshold }}</span>
+            </div>
+            <span class="ach-unlocked" *ngIf="a.unlocked">
+              <ion-icon name="checkmark-circle"></ion-icon>
+              Desbloqueado
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THEME PICKER -->
+    <div class="section-card">
+      <h3 class="section-title">
+        <ion-icon name="contrast-outline"></ion-icon>
+        Apariencia
+      </h3>
+      <div class="theme-picker">
+        <button class="theme-btn" [class.active]="isTheme('light')" (click)="setTheme('light')">
+          <ion-icon name="sunny-outline"></ion-icon>
+          <span>Claro</span>
+        </button>
+        <button class="theme-btn" [class.active]="isTheme('dark')" (click)="setTheme('dark')">
+          <ion-icon name="moon-outline"></ion-icon>
+          <span>Oscuro</span>
+        </button>
+        <button class="theme-btn" [class.active]="isTheme('auto')" (click)="setTheme('auto')">
+          <ion-icon name="contrast-outline"></ion-icon>
+          <span>Auto</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- INFO -->
+    <div class="info-card">
+      <div class="info-row">
+        <div class="info-icon-wrap">
+          <ion-icon name="mail-outline"></ion-icon>
+        </div>
+        <div class="info-text">
+          <span class="info-label">Email</span>
+          <span class="info-value">{{ userEmail || '—' }}</span>
+        </div>
+        <button class="copy-btn" (click)="copyEmail()" *ngIf="userEmail" aria-label="Copiar email">
+          <ion-icon name="copy-outline"></ion-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-row">
+        <div class="info-icon-wrap">
+          <ion-icon name="shield-checkmark-outline"></ion-icon>
+        </div>
+        <div class="info-text">
+          <span class="info-label">Sesión activa hasta</span>
+          <span class="info-value">{{ tokenExpiry || 'Activa' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="actions-section">
+      <button class="action-item" (click)="goToDashboard()">
+        <div class="action-icon"><ion-icon name="compass-outline"></ion-icon></div>
+        <span>Explorar planes</span>
+        <ion-icon name="chevron-forward-outline" class="chevron"></ion-icon>
+      </button>
+      <button class="action-item" (click)="goToFavorites()">
+        <div class="action-icon red"><ion-icon name="heart-outline"></ion-icon></div>
+        <span>Mis favoritos</span>
+        <ion-icon name="chevron-forward-outline" class="chevron"></ion-icon>
+      </button>
+      <button class="action-item danger" (click)="confirmLogout()">
+        <div class="action-icon danger"><ion-icon name="log-out-outline"></ion-icon></div>
+        <span>Cerrar sesión</span>
+        <ion-icon name="chevron-forward-outline" class="chevron"></ion-icon>
+      </button>
+    </div>
+
+    <p class="version-text">Planfy v1.0 · TFG</p>
+  </div>
+
+  <!-- TAB BAR -->
+  <div class="tab-bar">
+    <button class="tab-btn" (click)="goToDashboard()">
+      <ion-icon name="compass-outline"></ion-icon>
+      <span>Explorar</span>
+    </button>
+    <button class="tab-btn" (click)="goToFavorites()">
+      <ion-icon name="heart-outline"></ion-icon>
+      <span>Favoritos</span>
+    </button>
+    <button class="tab-btn active">
+      <ion-icon name="person"></ion-icon>
+      <span>Cuenta</span>
+    </button>
+  </div>
+
+</ion-content>

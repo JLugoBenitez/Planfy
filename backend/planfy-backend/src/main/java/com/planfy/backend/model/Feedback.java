@@ -26,6 +26,8 @@ public class Feedback {
     
     private int puntuacion;
     private String comentario;
+    
+    @Builder.Default
     private LocalDateTime fecha = LocalDateTime.now();
     
     @ManyToOne

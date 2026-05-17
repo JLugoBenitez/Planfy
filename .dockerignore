@@ -1,0 +1,25 @@
+# Backend - Archivos temporales y de build
+backend/planfy-backend/target/
+backend/planfy-backend/.mvn/
+backend/planfy-backend/mvnw
+backend/planfy-backend/mvnw.cmd
+
+# Frontend - Node modules y builds
+frontend/planfyApp/node_modules/
+frontend/planfyApp/www/
+frontend/planfyApp/dist/
+frontend/planfyApp/.angular/
+
+# Logs
+*.log
+logs/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+.DS_Store
+
+# Git
+.git/
+.gitignore

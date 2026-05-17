@@ -31,3 +31,21 @@ build/
 
 ### VS Code ###
 .vscode/
+<<<<<<< HEAD
+# ❌ No incluir metadatos de Eclipse
+/.metadata/
+/backend/.metadata/
+/frontend/.metadata/
+**/.classpath
+**/.project
+**/.settings/
+=======
+# Archivos basura de Eclipse
+.metadata/
+backend/.metadata/
+**/.classpath
+**/.project
+**/.settings/
+**/.log
+>>>>>>> feature/authentication
+

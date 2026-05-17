@@ -1,0 +1,7 @@
+{
+  "name": "planfyApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

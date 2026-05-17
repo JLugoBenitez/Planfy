@@ -24,6 +24,7 @@ public class ShuffleSession {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
+	@Builder.Default
 	private LocalDateTime fecha = LocalDateTime.now();
 	
 	private Double duracionMax;

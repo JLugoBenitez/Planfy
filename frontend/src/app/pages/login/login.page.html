@@ -1,0 +1,113 @@
+<ion-content class="login-content" fullscreen>
+
+  <div class="login-bg">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <div class="login-wrapper">
+
+    <!-- BRAND -->
+    <div class="brand">
+      <div class="brand-icon">
+        <ion-icon name="compass"></ion-icon>
+      </div>
+      <h1 class="brand-name">Planfy</h1>
+      <p class="brand-tagline">Descubre planes, un swipe a la vez.</p>
+    </div>
+
+    <!-- CARD con flip -->
+    <div class="auth-card" [class.flipped]="showRegister">
+
+      <!-- FRONT: LOGIN -->
+      <div class="card-face card-front">
+        <h2 class="card-title">Iniciar sesión</h2>
+
+        <div class="input-group">
+          <ion-icon name="mail-outline" class="input-icon"></ion-icon>
+          <input
+            type="email"
+            [(ngModel)]="loginEmail"
+            placeholder="Correo electrónico"
+            class="field"
+            autocomplete="email"
+          />
+        </div>
+
+        <div class="input-group">
+          <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
+          <input
+            type="password"
+            [(ngModel)]="loginPassword"
+            placeholder="Contraseña"
+            class="field"
+            autocomplete="current-password"
+            (keyup.enter)="login()"
+          />
+        </div>
+
+        <button class="btn-primary" (click)="login()">
+          Entrar
+          <ion-icon name="arrow-forward-outline"></ion-icon>
+        </button>
+
+        <p class="switch-text">
+          ¿No tienes cuenta?
+          <span class="switch-link" (click)="goToRegister()">Regístrate gratis</span>
+        </p>
+      </div>
+
+      <!-- BACK: REGISTER -->
+      <div class="card-face card-back">
+        <h2 class="card-title">Crear cuenta</h2>
+
+        <div class="input-group">
+          <ion-icon name="person-outline" class="input-icon"></ion-icon>
+          <input
+            type="text"
+            [(ngModel)]="registerNombre"
+            placeholder="Tu nombre"
+            class="field"
+          />
+        </div>
+
+        <div class="input-group">
+          <ion-icon name="mail-outline" class="input-icon"></ion-icon>
+          <input
+            type="email"
+            [(ngModel)]="registerEmail"
+            placeholder="Correo electrónico"
+            class="field"
+            autocomplete="email"
+          />
+        </div>
+
+        <div class="input-group">
+          <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
+          <input
+            type="password"
+            [(ngModel)]="registerPassword"
+            placeholder="Contraseña (mín. 6 caracteres)"
+            class="field"
+            autocomplete="new-password"
+            (keyup.enter)="register()"
+          />
+        </div>
+
+        <button class="btn-primary" (click)="register()">
+          Crear cuenta
+          <ion-icon name="rocket-outline"></ion-icon>
+        </button>
+
+        <p class="switch-text">
+          ¿Ya tienes cuenta?
+          <span class="switch-link" (click)="goToLogin()">Inicia sesión</span>
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</ion-content>

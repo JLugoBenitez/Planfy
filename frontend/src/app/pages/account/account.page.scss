@@ -1,0 +1,241 @@
+$bg: #0a0a0f;
+$surface: #14141f;
+$surface2: #1c1c2e;
+$border: rgba(255, 255, 255, 0.07);
+$accent: #7c5cbf;
+$accent2: #5b8dee;
+$red: #ff4d6d;
+$green: #22d47e;
+$text: #f0f0ff;
+$text-muted: #8888aa;
+$tab-h: 72px;
+
+.account-content {
+  --background: #{$bg};
+  --color: #{$text};
+}
+
+.account-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.15;
+
+    &.b1 {
+      width: 350px; height: 350px;
+      background: $accent;
+      top: -80px; right: -80px;
+    }
+    &.b2 {
+      width: 250px; height: 250px;
+      background: $accent2;
+      bottom: 100px; left: -60px;
+    }
+  }
+}
+
+.account-wrapper {
+  position: relative;
+  z-index: 1;
+  padding: 0 20px calc(#{$tab-h} + 24px);
+  min-height: 100vh;
+}
+
+// ─── Avatar ───────────────────────────────────────────────
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 0 32px;
+
+  .avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, $accent, $accent2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 38px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 16px;
+    box-shadow: 0 8px 32px rgba($accent, 0.4);
+    letter-spacing: -1px;
+  }
+
+  .user-name {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 800;
+    color: $text;
+    letter-spacing: -0.5px;
+  }
+
+  .user-email {
+    margin: 6px 0 0;
+    font-size: 14px;
+    color: $text-muted;
+  }
+}
+
+// ─── Info Section ─────────────────────────────────────────
+.info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.info-card {
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: 16px;
+  padding: 16px;
+
+  .info-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    .info-icon-wrap {
+      width: 40px; height: 40px;
+      background: rgba($accent2, 0.12);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      ion-icon { font-size: 20px; color: $accent2; }
+    }
+
+    .info-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+
+      .info-label {
+        font-size: 11px;
+        font-weight: 700;
+        color: $text-muted;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+      }
+
+      .info-value {
+        font-size: 14px;
+        color: $text;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+// ─── Actions Section ──────────────────────────────────────
+.actions-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+
+.action-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid $border;
+  color: $text;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s;
+
+  &:last-child { border-bottom: none; }
+  &:active { background: rgba(255,255,255,0.04); }
+
+  .action-icon {
+    width: 36px; height: 36px;
+    background: rgba($accent2, 0.12);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    ion-icon { font-size: 18px; color: $accent2; }
+
+    &.red {
+      background: rgba($red, 0.12);
+      ion-icon { color: $red; }
+    }
+    &.danger {
+      background: rgba($red, 0.12);
+      ion-icon { color: $red; }
+    }
+  }
+
+  span { flex: 1; }
+
+  .chevron {
+    font-size: 16px;
+    color: $text-muted;
+  }
+
+  &.danger {
+    color: $red;
+    .chevron { color: rgba($red, 0.5); }
+  }
+}
+
+.version-text {
+  text-align: center;
+  font-size: 12px;
+  color: $text-muted;
+  margin: 0;
+  opacity: 0.6;
+}
+
+// ─── Tab Bar ──────────────────────────────────────────────
+.tab-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: $tab-h;
+  background: rgba($surface, 0.95);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid $border;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 100;
+
+  .tab-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    color: $text-muted;
+    font-size: 11px;
+    cursor: pointer;
+    padding: 8px 0;
+    ion-icon { font-size: 22px; }
+
+    &.active { color: $accent2; ion-icon { color: $accent2; } }
+    &:active { opacity: 0.7; }
+  }
+}
